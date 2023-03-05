@@ -1,0 +1,18 @@
+.dropdown-submenu {
+    position: relative;
+  }
+  
+.dropdown-submenu > .dropdown-menu {
+  left: 100%;
+  top: -6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu, .dropdown-submenu > a:focus + .dropdown-menu {
+  display: block;
+}
+  
+.dropdown-submenu a {
+  text-decoration: none!important;
+  color: #008000!important;
+  margin-left: 30px;
+}
