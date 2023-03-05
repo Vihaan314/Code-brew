@@ -1,0 +1,153 @@
+{% extends "base.html" %}{% block title %}Sign Up{% endblock %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+<link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+
+
+
+<!-- <div class='cursor' id="cursor"></div>
+<div class='cursor2' id="cursor2"></div>
+<div class='cursor3' id="cursor3"></div> -->
+  <div class="cursor2">
+	<div class="cursor-inner"></div>
+	<span class="cursor-text"></span>
+  </div>
+  
+  
+<canvas id="matrix-canvas"></canvas>
+<form method="POST" id="signup">
+	<h1 align = "center" style="color: #00ff6a;" data-value="CODER'S CAFE">CODER'S CAFE</h1>
+    <h3 align= "center" style="color: #00ff6a;">Sign up</h3>
+	
+	<div class="form-group has-icon fa-regular fa-envelope">
+		<label class="movable" for="email">Email address</label>
+		<input type="email" name="email" id="email" class="form-control form-field required email" />
+	</div>
+	<div class="form-group has-icon fa-user">
+		<label class="movable" for="firstName">Username</label>
+		<input type="text" name="firstName" id="firstName" class="form-control form-field required" />
+	</div>
+    <div class="form-group has-icon fa-lock">
+        <label class="movable" for="password1">Password</label>
+        <input type="password" class="form-control form-field required" id="password1" name="password1"/>
+    </div>
+    <div class="form-group has-icon fa-key">
+        <label class="movable" for="password2">Password (Confirm)</label>
+        <input type="password" class="form-control form-field required" id="password2" name="password2"/>
+    </div>
+
+
+<!-- 	
+	<div class="form-group has-icon select dropdown-up fa-diamond">
+		<label class="movable" for="moreoptions">Encryption Method</label>
+		<select name="encryption" id="moreoptions" class="form-field required">
+			<option value="" selected>Select method</option>
+			<option value="1">Caeser</option>
+			<option value="2">Atbash</option>
+			<option value="3">Monoalphabetic</option>
+			<option value="4">Vigenere</option>
+			<option value="4">Trithemius</option>
+			<option value="6">Affine</option>
+		</select>
+		<span class="error-message">Select something tho...</span>
+	</div>
+	<div class="form-group has-icon select fa-code">
+		<label class="movable" for="options">Your favourite programming language</label>
+		<select name="language" id="options" class="form-field required">
+			<option value="" selected>Select an option</option>
+			<option value="Python">Python</option>
+			<option value="Java">Java</option>
+			<option value="C#">C#</option>
+		</select>
+		<span class="error-message">Select something tho...</span>
+	</div> 
+	 -->
+	
+	
+	<div class="form-group has-icon fa-comment-o">
+		<label class="movable" for="comment">About me (optional)</label>
+		<textarea name="aboutme" id="comment" rows="6" class="form-field required"></textarea>
+		<span class="error-message">Write a bit about yourself</span>
+	</div>
+	
+	<div class="form-group checkbox">
+		<input type="checkbox" class="fa fa-check" name="notifications" id="news" checked/>
+		<label for="news">Enable Push Notifications</label>
+	</div>
+
+
+	 <div class="form-group">
+		<button type="submit" class ="form-submit glow-effect" data-glow-offset="true" data-glow-animation="true">
+			Create Account
+			<svg class="glow-container">
+			  <rect pathLength="100" stroke-linecap="round" class="glow-blur"></rect>
+			  <rect pathLength="100" stroke-linecap="round" class="glow-line"></rect>
+			</svg>
+		</button>
+	 </div>
+	 
+    <p class="login">Already have an account? <a href="/login">Login</a>.</p>
+
+</form>
+
+
+<script type="text/javascript">
+	// Initialising the canvas
+	var canvas = document.querySelector('canvas'),
+	ctx = canvas.getContext('2d');
+	
+
+	// Setting the width and height of the canvas
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+
+	// Setting up the letters
+	var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
+	letters = letters.split('');
+
+	// Setting up the columns
+	var fontSize = 10,
+	columns = canvas.width / fontSize;
+
+	// Setting up the drops
+	var drops = [];
+	for (var i = 0; i < columns; i++) {
+	drops[i] = 1;
+	}
+
+	// Setting up the draw function
+	function draw() {
+	ctx.fillStyle = 'rgba(31, 32, 41, .1)';
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	for (var i = 0; i < drops.length; i++) {
+	var text = letters[Math.floor(Math.random() * letters.length)];
+	ctx.fillStyle = '#0f0';
+	ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+	drops[i]++;
+	if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+		drops[i] = 0;
+	}
+	}
+	}
+
+	// Loop the animation
+	setInterval(draw, 25);
+
+</script>
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='sign.js') }}"></script>
+<script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+	
+<!-- <h1>This is the sign-up page</h1> -->
+{% endblock %}
