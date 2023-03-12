@@ -127,7 +127,7 @@ $(document).ready(function() {
   $(document).on('mousemove', function(e){
     $('.cursor2').css({
       left: e.clientX + "px", 
-      top: e.clientY + "px"
+      top: (e.clientY-15) + "px"
    
     });
   });
