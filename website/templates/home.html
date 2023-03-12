@@ -20,6 +20,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css"  rel="stylesheet" />
 <script>
   // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+  localStorage.setItem("playedAnimation", false);
   if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
   } else {
@@ -28,18 +29,27 @@
 </script>
 
 
+
+
 <div class="flex overflow-hidden bg-gray-50 dark:bg-gray-900">
   <aside class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 w-64 h-full font-normal duration-75 lg:flex transition-width" aria-label="Sidebar">
     <div class="px-3 py-4 left-4 overflow-y-auto h-screen rounded sidebar bg-stone-900 dark:bg-gray-800">
       <a href="/" class="flex items-center pl-2.5 mb-5">
-          <img src="{{ url_for('static', filename='cafetemp.png') }}" class="h-6 mr-3 sm:h-7" alt="Coder's Cafe Logo" />
-          <span class="self-center text-xl font-semibold whitespace-nowrap text-green-400 dark:white">Coder's Cafe</span> 
+          <img src="{{ url_for('static', filename='cafetemp.png') }}" class="h-6 mr-3 sm:h-7" alt="Code Brew Logo" />
+          <span class="self-center text-xl font-semibold whitespace-nowrap text-green-400 dark:white">Code Brew</span> 
       </a>
       <button id="dropdownUserNameButton"  class="kqgYncRJQ7spwKfig6It _T15kfOPGkvwZnqhqKce neyUwteEn7DOg9pBSJJE Y34SQMYAJVIAdOFKA3gG _MTwKeST1JpgVPLVq9Qc jCISvWkW5oStPH6Wrb_H _Qk4_E9_iLqcHsRZZ4ge _cpMMPjFQqjJu4i0Puod _OovBxfPdK7Rjv2nh2Ot yFAsiu26MUcycUf9RwrL dark:hover-bg-gray-700 qHIOIw8TObHgD3VvKa5x _FONMPVaCsLFJJGDaaIL _bKyZ1er5YE_NnrwOCm9 __8kBLtrR_iuU2wW25Lp" type="button">
         <div class="flex items-center ">
             <!-- <img src="{{ url_for('static', filename='avatarDefault.png') }}" class="Cl7RaVW6jbggnJW_S87T rounded-full h-8">  -->
-            <svg class="Cl7RaVW6jbggnJW_S87T  h-10 text-sky-500" viewBox="0 0 24 24" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c3e50"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#34495e"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
-
+            {% if messages_sent >=  1 and messages_sent < 5%}
+              <svg class="Cl7RaVW6jbggnJW_S87T  h-14 text-sky-500" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#573232" stroke="#573232" stroke-width="0.24000000000000005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#3d3434"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#3094f8"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+            {% elif messages_sent >= 5 and messages_sent < 10 %}
+              <svg class="Cl7RaVW6jbggnJW_S87T  h-14 text-sky-500" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000" transform="rotate(0)" stroke="#000000" stroke-width="0.168"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c69a5"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#ff0000"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+            {% elif messages_sent >= 10 %}
+              <svg class="Cl7RaVW6jbggnJW_S87T  h-14 text-sky-500" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#00ff2a" stroke="#00ff2a" stroke-width="0.24000000000000005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.9600000000000002"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#000000"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#000000"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#10ea51"></path> </g> </g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#000000"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#000000"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#10ea51"></path> </g> </g></svg>
+            {% else %}
+              <svg class="Cl7RaVW6jbggnJW_S87T  h-14 text-sky-500" viewBox="0 0 24 24" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c3e50"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#34495e"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+            {% endif %}
             <div class="text-left">   
                 <div class="text-green-400 LYMps1kO2vF8HBymW3az MxQqv3Z913orO6JQGGbH g3OYBOqwXUEW4dRGogkH a0Ed69aMSu0vgf4oysz0 e7U_bm2YzmHTdXgdisqA">{{userName}}</div>
                 <div class="text-green-400 MxG1ClE4KPrIvlL5_Q5x K1PPCJwslha8GUIvV_Cr eCx_6PNzncAD5yo7Qcic">{{proglang}}</div>
@@ -94,9 +104,8 @@
         </li>
         <li>
           <a href="#" class="flex items-center p-2 text-base font-normal  rounded-lg dark:text-green-400 hover:bg-green-800 dark:hover:bg-gray-700" id="puzzle-tab" data-tabs-target="#puzzle" type="button" role="tab" aria-controls="puzzle" aria-selected="false">
-            <!-- <svg class="flex-shrink-0 w-6 h-6 text-green-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 10H9V7c0-1.654 1.346-3 3-3s3 1.346 3 3h2c0-2.757-2.243-5-5-5S7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zm-7.939 5.499A2.002 2.002 0 0 1 14 16a1.99 1.99 0 0 1-1 1.723V20h-2v-2.277a1.992 1.992 0 0 1-.939-2.224z"></path></svg> -->
-            <svg class="flex-shrink-0 w-6 h-6 text-green-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-green-400" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs> <style>.cls-1{fill:none;stroke:#31c48d;stroke-linecap:square;stroke-miterlimit:10;stroke-width:1.91px;}</style> </defs> <g id="puzzle_piece" data-name="puzzle piece"> <path class="cls-1" d="M12,1.5a2.86,2.86,0,0,1,2.86,2.86v1h5.73V12h-.95a2.85,2.85,0,0,0-2,.84,2.86,2.86,0,0,0,2,4.89h.95V22.5H3.41V17.73h1a2.87,2.87,0,1,0,0-5.73h-1V5.32H9.14v-1A2.86,2.86,0,0,1,12,1.5Z"></path> </g> </g></svg>
-            <span class="flex-1 ml-3 whitespace-nowrap text-green-400">Puzzles (S)</span>
+            <svg class="flex-shrink-0 w-6 h-6 text-green-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-green-400" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs> <style>.cls-1{fill:none;stroke:#4ade80;stroke-linecap:square;stroke-miterlimit:10;stroke-width:1.91px;}</style> </defs> <g id="puzzle_piece" data-name="puzzle piece"> <path class="cls-1" d="M12,1.5a2.86,2.86,0,0,1,2.86,2.86v1h5.73V12h-.95a2.85,2.85,0,0,0-2,.84,2.86,2.86,0,0,0,2,4.89h.95V22.5H3.41V17.73h1a2.87,2.87,0,1,0,0-5.73h-1V5.32H9.14v-1A2.86,2.86,0,0,1,12,1.5Z"></path> </g> </g></svg>
+            <span class="flex-1 ml-3 whitespace-nowrap text-green-400">Puzzles</span>
           </a> 
       </li>
         <li>
@@ -112,9 +121,9 @@
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal  rounded-lg dark:text-green-400 hover:bg-green-800 dark:hover:bg-gray-700" id="playground-tab" data-tabs-target="#playground" type="button" role="tab" aria-controls="playground" aria-selected="true">
+          <a href="#" class="flex items-center p-2 text-base font-normal  rounded-lg dark:text-green-400 hover:bg-green-800 dark:hover:bg-gray-700" id="creator-tab" data-tabs-target="#creator" type="button" role="tab" aria-controls="creator" aria-selected="false">
             <svg class="flex-shrink-0 w-6 h-6 text-green-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3h-7a2.98 2.98 0 0 0-2 .78A2.98 2.98 0 0 0 10 3H3a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h5.758c.526 0 1.042.214 1.414.586l1.121 1.121c.009.009.021.012.03.021.086.079.182.149.294.196h.002a.996.996 0 0 0 .762 0h.002c.112-.047.208-.117.294-.196.009-.009.021-.012.03-.021l1.121-1.121A2.015 2.015 0 0 1 15.242 20H21a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM8.758 18H4V5h6c.552 0 1 .449 1 1v12.689A4.032 4.032 0 0 0 8.758 18zM20 18h-4.758c-.799 0-1.584.246-2.242.689V6c0-.551.448-1 1-1h6v13z"></path></svg>
-            <span class="flex-1 ml-3 whitespace-nowrap text-green-400">Cipher creator</span>
+            <span class="flex-1 ml-3 whitespace-nowrap text-green-400">Cipher creator (S)</span>
           </a>
         </li>
         <li>
@@ -138,22 +147,28 @@
 
 
 
+
 <div id="tabsContent" class="relative h-full overflow-hidden z-0 bg-stone-900 lg:ml-60 dark:bg-gray-900 ">
   <div class="hidden pl-11 pt-1" id="public" role="tabpanel" aria-labelledby="public-tab">
-    <div class="chat">  
+    <div class="chat" style="height: calc(100vh - 90px)!important;">  
       {% for msg in messages %}
         <div class="pt-2">
           <div class="grid gap-4 xl:grid-cols-2 2xl:grid-cols-4">
             <div class="messages pl-4 pr-4 pt-3 bg-green-400 border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 h-20 w-auto dark:border-gray-700  dark:bg-gray-800">
               <div class="flex items-center justify-between mb-4">
-                <p><i>{{msg.date}}</i> <br> <button data-popover-target="popover-user-profile" type="button"><strong>{{trySessions[msg.user_id-1]}}</strong></button> - {{msg.data}}</p>
-                  <div data-popover id="popover-user-profile" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                <p><i>{{msg.date}}</i> <br> <button data-popover-target="popover-user-{{trySessions[msg.user_id-1]}}" type="button"><strong>{{trySessions[msg.user_id-1]}}</strong></button> - {{msg.data}}</p>
+                  <div data-popover id="popover-user-{{trySessions[msg.user_id-1]}}" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
                       <div class="p-3">
                           <div class="flex items-center justify-between mb-2">
                               <a href="#">
                                   <!-- <img class="w-10 h-10 rounded-full" src="{{ url_for('static', filename='avatarDefault.png') }}" alt="{{userName}}"> -->
-                                  <svg class="Cl7RaVW6jbggnJW_S87T  h-10 text-sky-500" viewBox="0 0 24 24" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c3e50"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#34495e"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
-
+                                  {% if messages_sent < 1 %}
+                                    <svg class="Cl7RaVW6jbggnJW_S87T h-10 text-sky-500" viewBox="0 0 24 24" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c3e50"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#34495e"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+                                  {% elif messages_sent >= 1 and messages_sent < 5 %}
+                                    <svg class="Cl7RaVW6jbggnJW_S87T h-10 text-sky-500" viewBox="0 0 24 24" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#573232" stroke="#573232" stroke-width="0.24000000000000005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#3d3434"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#3094f8"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+                                  {% elif messages_sent >= 5 %}
+                                    <svg class="Cl7RaVW6jbggnJW_S87T h-10 text-sky-500" viewBox="0 0 24 24" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#573232" stroke="#573232" stroke-width="0.24000000000000005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#3d3434"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#3094f8"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+                                  {% endif %}
                               </a>
                               
                           </div>
@@ -161,9 +176,10 @@
                               <a href="#">{{trySessions[msg.user_id-1]}}</a>
                           </p>
                           <p class="mb-3 text-sm font-normal">
-                              <a href="#" class="hover:underline">{{userE.email}}</a>
+                              <a href="#" class="hover:underline">{{allUsers[msg.user_id-1].email}}</a>
                           </p>
-                          <p class="mb-4 text-sm font-light">I speak {{proglang}}. {{aboutme}} .</p>
+                          <p class="mb-4 text-sm font-light">I speak {{allUsers[msg.user_id-1].fav_lang}}.</p>
+                          <p class="mb-2 text-sm font-light">I have sent {{allUsers[msg.user_id-1].messages_sent}} messages</p>
                           
                       </div>
                       <div data-popper-arrow></div>
@@ -244,28 +260,54 @@
   </div>
 </div>
 
-<div id="tabsContent" class="relative w-full h-full z-10 bg-stone-800 lg:ml-64 dark:bg-gray-900">
-  <div class="hidden pl-11 pt-5" id="codebreaker" role="tabpanel" aria-labelledby="codebreaker-tab">
-    <div class="chat" data-aos="fade-in" data-aos-delay="200">  
-      <h1 class="text-green-400 text-bold">Codebreaker:</h1>
-      <br>
-      <form method="POST" action="#">
-        <div class="w-96 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 center">
-          <div class="px-4 py-2 bg-green-400 rounded-t-lg dark:bg-gray-800">
-              <label for="encryptedPassage" class="sr-only">Plaintext</label>
-
-            {{playgroundThings}}
-            {{playground}}
-              <textarea name="playEncrypt" id="encryptedPassage" rows="4" class="w-full px-0 text-sm text-gray-900  bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ciphertext..." >{{playgroundE}}</textarea>
-            </div>
-          <div class="flex items-center justify-between px-3 py-2 border-t bg-green-500 dark:border-gray-600">
-              <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                  Decrypt
-              </button>
-          </div>
-        </div>
-      </form>
+<div id="tabsContent" class="relative w-full h-full z-10 bg-stone-900 lg:ml-48 dark:bg-gray-900" style="margin-left: 14rem;">
+  <div class="hidden pt-5" style="padding-left: 5rem;" id="codebreaker" role="tabpanel" aria-labelledby="codebreaker-tab">
+    <div class="chat" style="z-index: -10;">  
+      <h1 class="text-green-500 text-3xl" >Codebreaker:</h1>
       
+      <div class="grid grid-cols-4 grid-rows-2 gap-4 ">
+        <form action="" method="POST">
+          <br>
+          <label class="text-green-400">Shift Cipher Cracker:</label>
+          <div class="w-[56rem] mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 center">
+              <div class="px-4 h-[12rem] py-2 bg-green-400 rounded-t-lg dark:bg-gray-800">
+                <label for="shiftBreaker" class="sr-only">Ciphertext</label>
+                <textarea name="shiftBreaker" id="shiftBreaker" rows="4" class="w-full px-0 text-sm text-gray-900  bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ciphertext..." >{{shiftDecrypted}}</textarea>
+              </div>                  
+              <div class="flex items-center justify-between px-3 py-2 border-t bg-green-500 dark:border-gray-600">
+                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-base font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-green-800">
+                    Crack!
+                </button>
+            </div>
+            
+          </div>
+          <div class="text-green-400 absolute top-24 right-[21rem]">
+            {% if shiftDecrypted %}
+              <h1 class="text-xl bold">Decrypted Text:</h1>
+              <p class=" w-2/5">{{shiftDecrypted}}</p>
+              <h1 class="text-xl bold">Message Key:</h1>
+              {{shiftKey}}
+            {% else %}
+              <h1 class="text-xl bold">Cracked Message</h1>
+            {% endif %}
+          </div>
+          
+          <br>
+          <label class="text-green-400">Vigenere Cipher Cracker:</label>
+          <div class="w-[56rem] mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+            <div class="px-4 py-2 h-[12rem] bg-green-400 rounded-t-lg dark:bg-gray-800">
+                <label for="vigenereBreaker" class="sr-only">Ciphertext</label>
+                <textarea name="vigenereBreaker" id="vigenereBreaker" rows="4" class="w-full px-0 text-sm text-gray-900 bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ciphertext..." >{{playgroundD}}</textarea>
+            </div>
+            <div class="flex items-center justify-between px-3 py-2 border-t bg-green-500 dark:border-gray-600">
+                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-base font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-green-800">
+                    Crack!
+                </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
     </div>
     <br>
   </div>
@@ -274,15 +316,73 @@
 <div id="tabsContent" class="relative w-full h-full z-10 bg-stone-800  dark:bg-gray-900" style="margin-left: 14rem;" >
   <div class="hidden pl-11 pt-5" id="puzzle" role="tabpanel" aria-labelledby="puzzle-tab">
     <div class="chat">  
-      <h1 class="text-green-400 text-bold mt-3">Puzzles:</h1>
+      <!-- <h1 class="text-green-400 text-bold mt-3">Puzzles:</h1>
       <br>
-      <button type="button" class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate Puzzle</button>          
-      <h1 class="text-green-400">Translate this using caeser cipher key 3</h1>
+      
+       -->
+       <div class="puzzles-wrapper">
+        <div class="puzzles-menu">
+          <h2>Cryptography &amp; Puzzle Categories</h2>
+          <ul>
+            <li class="active">Cryptograms</li>
+            <li>Cipher Puzzles</li>
+            <li>Break the code</li>
+            <li>Random</li>
+            <li>Multiplayer</li>
+            <li>Something</li>
+          </ul>
+        </div>
+        <div class="puzzles-content">
+          <div class="cryptograms-section active">
+            <h3>Cryptograms</h3>
+            <p>Decrypt the hidden message by solving the substitution cipher.</p>
+            <form method="POST" action="#">
+              <button type="submit" class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Generate Puzzle</button>          
+            </form>
+
+          </div>
+          <div class="cipher-puzzles-section">
+            <h3>Cipher Puzzles</h3>
+            <p>Crack the code using various ciphers such as the Caesar Cipher, Vigenère Cipher, or Rail Fence Cipher.</p>
+          </div>
+          <div class="logic-puzzles-section">
+            <h3>Logic Puzzles</h3>
+            <p>Challenge your mind with various logic puzzles such as Sudoku or Kakuro.</p>
+          </div>
+          <div class="word-searches-section">
+            <h3>Word Searches</h3>
+            <p>Find the hidden words in a grid of letters, with various themes like animals, movies, and sports.</p>
+          </div>
+          <div class="mazes-section">
+            <h3>Mazes</h3>
+            <p>Navigate through the maze to reach the end, with various levels of difficulty.</p>
+          </div>
+          <div class="number-puzzles-section">
+            <h3>Number Puzzles</h3>
+            <p>Challenge your math skills with various number puzzles such as Sudoku or KenKen.</p>
+          </div>
+        </div>
+      </div>
+      
+      
+      
       
     </div>
     <br>
   </div>
 </div>
+<script>
+  $(document).ready(function(){
+    $(".puzzles-menu li").click(function(){
+      $(".puzzles-menu li").removeClass("active");
+      $(this).addClass("active");
+      var selectedSection = $(this).text().toLowerCase().replace(" ", "-");
+      $(".puzzles-content div").removeClass("active");
+      $("." + selectedSection + "-section").addClass("active");
+    });
+  });
+  
+</script>
 
 <div id="tabsContent" class="relative w-full h-full z-10 bg-stone-900 lg:ml-48 dark:bg-gray-900">
   <div class="hidden pl-11 pt-5" id="learn" role="tabpanel" aria-labelledby="learn-tab">     
@@ -339,10 +439,198 @@
     <br>
   </div>
 </div>
+<div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+  <div class="relative w-full h-full max-w-md md:h-auto">
+      <!-- Modal content -->
+      <div class="relative bg-gray-800 rounded-lg shadow dark:bg-gray-700">
+          <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <span class="sr-only">Close add</span>
+          </button>
+          <div class="px-6 py-6 lg:px-8">
+              <h3 class="mb-4 text-xl font-medium text-green-500 dark:text-white">Additional Information:</h3>
+              <form class="space-y-6" action="#">
+                  <div>
+                      <label for="email" class="block mb-2 text-sm font-medium text-green-500 dark:text-white">Favourite language</label>
+                      <input type="email" name="email" id="email" class="bg-gray-700 border border-green-500 text-green-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Python" required>
+                  </div>
+                  <div>
+                      <label for="password" class="block mb-2 text-sm font-medium text-green-500 dark:text-white">About me</label>
+                      <textarea type="password" name="password" id="password" placeholder="This is a bit about me" rows="6" class="bg-gray-700 border border-green-500 text-green-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required></textarea>
+                  </div>
+                  <label class="movable text-green-400" for="moreoptions">Encryption Method</label>
+
+                  <div class="form-group has-icon select dropdown-up fa-diamond">
+                    <select name="encryption" id="moreoptions" class="form-field bg-gray-700 text-green-400">
+                      <option value="" selected>Select method</option>
+                      <option value="1">Caeser</option>
+                      <option value="2">Atbash</option>
+                      <option value="3">Monoalphabetic</option>
+                      <option value="4">Vigenere</option>
+                      <option value="4">Trithemius</option>
+                      <option value="6">Affine</option>
+                    </select>
+                  </div>
+                  <div class="form-group has-icon select fa-code">
+                    <label class="movable text-green-400" for="options">Favourite programming language</label>
+                    <select name="language" id="options" class="form-field bg-gray-700 text-green-400">
+                      <option value="" selected>Select an option</option>
+                      <option value="Python">Python</option>
+                      <option value="Java">Java</option>
+                      <option value="C#">C#</option>
+                    </select>
+                  </div> 
+                  <div class="flex justify-between">
+                      <div class="flex items-start">
+                          <div class="flex items-center h-5">
+                              <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-700 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required>
+                          </div>
+                          <label for="remember" class="ml-2 text-sm font-medium text-green-500  dark:text-gray-300">Enable push notifications</label>
+                      </div>
+                  </div>
+                  <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+                  
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<style>
+ 
+  .form-group {
+    margin-top: 1.6rem;
+    position: relative;
+    min-height: 3rem;
+    line-height: 3rem;
+  }
+  
+
+  .form-group .form-field:not(textarea),
+  .form-group .form-submit:not(textarea) {
+    height: 3rem;
+    padding: 0 15px;
+  }
+  .form-group textarea {
+    resize: vertical;
+    background: none!important;
+  }
+  .form-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    border: 1px solid #c8ccdf;
+    line-height: 14px;
+    text-align: center;
+    border-radius: 4px;
+    margin-right: 5px;
+    color: #0a78f5;
+    font-size: 12px;
+    transition: all 0.2s;
+    background: white;
+  }
+  .form-group input[type="checkbox"]::before {
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  .form-group input[type="checkbox"]:checked::before {
+    opacity: 1;
+  }
+  .form-group .form-field:focus,
+  .form-group input[type="checkbox"]:focus {
+    box-shadow: 0 0 4px 3px rgba(85, 155, 47, 0.2);
+    border: 1px solid #3dd513;
+    outline: none;
+  }
+  .form-group .form-field + label,
+  .form-group input[type="checkbox"] + label {
+    color: #a8afcc;
+  }
+  .form-group .form-submit {
+    background: #3b93f7;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: 0;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .form-group .form-submit:hover {
+    background: #0a78f5;
+    transform: translateY(-2px);
+  }
+  .form-group .form-submit:active {
+    transform: translateY(0);
+  }
+  .form-group.has-icon::before {
+    font-family: "FontAwesome";
+    position: absolute;
+    line-height: 3rem;
+    top: 0;
+    left: 0;
+    width: 3rem;
+    text-align: center;
+    z-index: 2;
+    color: #1eff00;
+    pointer-events: none;
+    transition: color 0.2s;
+    animation: none;
+  }
+  .form-group.has-icon.checkbox,
+  .form-group.has-icon .form-field,
+  .form-group.has-icon label.movable {
+    padding-left: 3rem;
+  }
+  .form-group.moved::before {
+    color: #0fe500;
+    animation: iconPinch 0.3s ease-in-out;
+  }
+  .form-group.moved label.movable {
+    top: -1.5rem;
+    height: 1rem;
+    line-height: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding-left: 0;
+  }
+  .form-group.moved label.movable::after {
+    content: ":";
+  }
+  .form-group.invalid label {
+    color: #e66051;
+  }
+  .form-group.invalid .error-message {
+    transform: scale(1);
+  }
+  .form-group.invalid::before {
+    color: #e66051;
+    animation: iconWiggle 0.4s ease-in-out;
+  }
+  .form-group.invalid .form-field {
+    background: #fff5f5;
+    border: 1px solid #e66051;
+  }
+  .form-group.invalid .form-field:focus {
+    box-shadow: 0 0 4px 3px rgba(230, 96, 81, 0.2);
+  }
+  .form-group.select::after {
+    content: " ";
+    
+  }
+  .form-group.select .form-field {
+    color: white;
+    padding-right: 30px;
+  }
+ 
+</style>
+
 
 <div id="tabsContent" class="relative w-full h-full z-10 bg-stone-900 lg:ml-48 dark:bg-gray-900">
   <div class="hidden pt-5" style="padding-left: 5rem;" id="playground" role="tabpanel" aria-labelledby="playground-tab">
-    <div class="chat" style="z-index: -10;">  
+    <div class="chat" style="height: 95vh!important;">  
+      <!-- <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" id="signInModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        Additional Information
+      </button> -->
+
       <h1 class="text-green-500">Playground (you can use this feature to encrypt and decrypt inputted text in the browser with a visualizer):</h1>
       
       <div class="grid grid-cols-4 gap-4 ">
@@ -362,7 +650,7 @@
           <div class="w-96 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 center">
               <div class="px-4 py-2 bg-green-400 rounded-t-lg dark:bg-gray-800">
                 <label for="encryptPlay" class="sr-only">Plaintext</label>
-                <textarea name="playEncrypt" id="encryptPlay" rows="4" class="w-full px-0 text-sm text-gray-900  bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Plaintext..." >{{playgroundE}}</textarea>
+                <textarea name="playEncrypt" id="encryptPlay" rows="4" class="w-full px-0 text-sm text-gray-900  bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Plaintext..." >{{playgroundD}}</textarea>
               </div>                  
               <div class="flex items-center justify-between px-3 py-2 h-12 border-t bg-green-400 dark:border-gray-600">
                   <div class="flex h-9 w-96">
@@ -374,7 +662,7 @@
               </div>
 
               <div class="flex items-center justify-between px-3 py-2 border-t bg-green-500 dark:border-gray-600">
-                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-base font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-base font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-green-800">
                     Encrypt
                 </button>
             </div>
@@ -383,23 +671,66 @@
           <div class="w-96 mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
             <div class="px-4 py-2 bg-green-400 rounded-t-lg dark:bg-gray-800">
                 <label for="decryptPlay" class="sr-only">Ciphertext</label>
-                <textarea name="playDecrypt" id="decryptPlay" rows="4" class="w-full px-0 text-sm text-gray-900 bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ciphertext..." >{{playgroundD}}</textarea>
+                <textarea name="playDecrypt" id="decryptPlay" rows="4" class="w-full px-0 text-sm text-gray-900 bg-green-400 border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Ciphertext..." >{{playgroundE}}</textarea>
             </div>
             <div class="flex items-center justify-between px-3 py-2 border-t bg-green-500 dark:border-gray-600">
-                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-base font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                <button type="submit" class="inline-flex items-center py-2.5 px-4 text-base font-medium text-center text-white bg-green-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-green-800">
                     Decrypt
                 </button>
             </div>
           </div>
         </form>
-        <h1 class="text-green-400 flex items-baseline">Animation Controls:</h1>
+
+        <!-- <div class="controls absolute bottom-0 mb-16">
+          <h1 class="text-green-400 text-2xl ml-12">Animation Controls:</h1>
+          <div class="h-3"></div>
+            <div class="grid grid-cols-2 grid-rows-2 gap-y-4 relative" style="--colGap: 8rem; column-gap: calc(-1 * var(--colGap))!important">              
+              <button data-popover-target="popover-play" type="button" class="text-green-400 ml-24"><svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="m9 17 8-5-8-5z"></path></svg></button>
+              <div data-popover id="popover-play" role="tooltip" class="absolute z-10 invisible inline-block w-16 text-sm font-light text-gray-500 transition-opacity duration-300 bg-green-400 border border-green-300 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                  <div class="px-3 py-2 bg-green-400 border-b border-green-300 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                      <h3 class="font-semibold text-gray-900 dark:text-white">Play</h3>
+                  </div>
+                  <div data-popper-arrow class="text-green-400"></div>
+              </div>
+
+              <button data-popover-target="popover-pause" type="button" class="text-green-400 ml-16"><svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 9h2v6h-2zM9 9h2v6H9z"></path></svg></button>
+              <div data-popover id="popover-pause" role="tooltip" class="absolute z-10 invisible inline-block w-16 text-sm font-light text-gray-500 transition-opacity duration-300 bg-green-400 border border-green-300 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                  <div class="px-3 py-2 bg-green-400 border-b border-green-300 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                      <h3 class="font-semibold text-gray-900 dark:text-white">Pause</h3>
+                  </div>
+                  <div data-popper-arrow class="text-green-400"></div>
+              </div>
+
+              <button data-popover-target="popover-replay"  type="button" class="text-green-400 ml-24" id="replayAnimation"><svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18h3v-2H9c-1.654 0-3-1.346-3-3s1.346-3 3-3h6v3l5-4-5-4v3H9c-2.757 0-5 2.243-5 5s2.243 5 5 5z"></path></svg></button>
+              <div data-popover id="popover-replay" role="tooltip" class="absolute z-10 invisible inline-block w-16 text-sm font-light text-gray-500 transition-opacity duration-300 bg-green-400 border border-green-300 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                  <div class="px-2 py-2 bg-green-400 border-b border-green-300 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                      <h3 class="font-semibold text-gray-900 dark:text-white">Replay</h3>
+                  </div>
+                  <div data-popper-arrow class="text-green-400"></div>
+              </div>
+
+              <button data-popover-target="popover-speed" type="button" class="text-green-400 ml-16"><svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="currentColor"><path d="m20.145 8.27 1.563-1.563-1.414-1.414L18.586 7c-1.05-.63-2.274-1-3.586-1-3.859 0-7 3.14-7 7s3.141 7 7 7 7-3.14 7-7a6.966 6.966 0 0 0-1.855-4.73zM15 18c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path><path d="M14 10h2v4h-2zm-1-7h4v2h-4zM3 8h4v2H3zm0 8h4v2H3zm-1-4h3.99v2H2z"></path></svg></button>
+              <div data-popover id="popover-speed" role="tooltip" class="absolute z-10 invisible inline-block w-16 text-sm font-light text-gray-500 transition-opacity duration-300 bg-green-400 border border-green-300 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                  <div class="px-3 py-2 bg-green-400 border-b border-green-300 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                      <h3 class="font-semibold text-gray-900 dark:text-white">Speed</h3>
+                  </div>
+                  <div data-popper-arrow class="text-green-400"></div>
+              </div>
+              
+            </div>
+        </div> -->
 
 
-
+        {% if playgroundMethod %}
+          <script>
+            localStorage.setItem("playedAnimation", true)
+          </script>
+        {% endif %}
         <div class="visuals mt-4" {% if playgroundMethod == "Vigenere" %}style="margin-left:4rem;"{% else %}style="margin-left:6rem;"{% endif %}> 
           <h1 class="text-green-400">Visualize:</h1>
           {% if playgroundMethod in ["Caeser", "Atbash", "Monoalphabetic"] %}
-            <div>
+
+            <div class="caeserVisual">
               <table class="text-green-400 text-center" style="table-layout: fixed; width: 700px;" border="0"> 
                 <tr>
                   {% for i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
@@ -463,13 +794,13 @@
               <br>
               <h1 class="text-green-500 tracking-in-contract-bck-top" style="--delayTextContractBckTop: 7.5s;">We now know what letters to replace with our plaintext</h1>  
               <br>
-              <table class="text-green-400 text-center" style="table-layout: fixed; width: 350px;" border="0"> 
+              <table class="text-green-400 text-center" style="--plainLen: {{plaintext|length}}; table-layout: fixed; width: calc(var(--plainLen)*30);" border="0"> 
                 <tr>
                   {% for i in plaintext %}
                     {% if i != " " %}
                       <td style="--delaySlideBckCenter: {{(plaintext.index(i)+1)/20 + 9.0}}s; font-size: 20px;" class="slide-in-bck-center">{{i}}</td>
                     {% else %}
-                      <td style="font-size: 20px;">&hairsp;</td>
+                      <td style="font-size: 20px;">&nbsp;</td>
                     {% endif %}
                   {% endfor %}
                 </tr>   
@@ -517,6 +848,29 @@
                 </tr>   
               {% endfor %}
             </table>
+            <table class="text-green-400 text-center absolute" style=" table-layout: fixed; width: 800px;" border="0"  >
+              {% for i in range(0, alphabetVisual|length) %}
+                <tr>
+                  {% for j in range(0, alphabetVisual[i]|length) %}
+                    <td style="--delayFadeIn: {{alphabetVisual[i].index(alphabetVisual[i][j])/10 + 12}}s; border: 2px solid green; font-size: 14px;" class="fade-in" 
+                      {% if alphabetVisual[i][j] in plainUpper and alphabetVisual[i]=="ABCDEFGHIJKLMNOPQRSTUVWXYZ" and not (alphabetVisual[0][j] in plainUpper and alphabetVisual[i][0] in playgroundKeyUpper) and (alphabetVisual[0][j] == plainUpper and alphabetVisual[i][0] == playgroundKeyUpper)  %}
+                        class="bg-red-700 "
+                      {% elif alphabetVisual[i][j] in playgroundKeyUpper and alphabetVisual[i][j] not in alphabetVisual[i][1:] and not (alphabetVisual[0][j] in plainUpper and alphabetVisual[i][0] in playgroundKeyUpper) and (alphabetVisual[i][0] == playgroundKeyUpper)  %}
+                        class="bg-green-700 "
+                      {% elif alphabetVisual[i][0] in playgroundKeyUpper and not (alphabetVisual[0][j] in plainUpper and alphabetVisual[i][0] in playgroundKeyUpper) and (alphabetVisual[i][0] == playgroundKeyUpper)  %}
+                        class="bg-green-700 "
+                      {% elif alphabetVisual[0][j] in plainUpper and not (alphabetVisual[0][j] == plainUpper and alphabetVisual[i][0] == playgroundKeyUpper) and (alphabetVisual[0][j] == plainUpper )  %}
+                        class="bg-red-700 "
+                      {% elif alphabetVisual[0][j] in plainUpper and alphabetVisual[i][0] in playgroundKeyUpper and (alphabetVisual[i][0] == playgroundKeyUpper and alphabetVisual[0][j] == plainUpper) %}
+                        class="bg-yellow-200 "
+                      {% else %}
+                        class=""
+                      {% endif %}>{{alphabetVisual[i][j]}}
+                    </td>
+                  {% endfor %}
+                </tr>   
+              {% endfor %}
+            </table>
 
             {% for letters in range(0, playgroundE|length) %}
               <table class="text-green-400 text-center absolute fade-in" {% if letters == 0 %}style="--delayFadeIn: {{letters+3}}s; table-layout: fixed; width: 800px;"{% elif letter == 1 %}style="--delayFadeIn: {{letters+5}}s; table-layout: fixed; width: 800px;" border="0"{% else %}style="--delayFadeIn: {{letters+5}}s; table-layout: fixed; width: 800px;"{% endif%} >
@@ -538,19 +892,21 @@
                         class="bg-yellow-200 "
                       {% else %}
                         class=""
-                      {% endif %}>{{alphabetVisual[i][j]}}</td>
+                      {% endif %}>{{alphabetVisual[i][j]}}
+                    </td>
                     {% endfor %}
                   </tr>   
                 {% endfor %}
               </table>
-              <h1 class="text-green-400 absolute bottom-0 text-2xl plaintext"> 
-                <table class="text-green-400 text-center" style="table-layout: fixed; width: 100px;" border="0"> 
+              
+              <h1 class="text-green-400 absolute bottom-0 text-2xl plaintext" > 
+                <table class="text-green-400 text-center" style="table-layout: fixed; width: 100px;" > 
                   <tr>
                     {% for i in range(0, playgroundE|length) %}
-                      {% if i == letters %}
-                        <td style="--delaySlideBlurredTop: {% if letters == 0 %}{{letters + 5}}{%elif letter == 1 %}{{letters + 8}}{%else %}{{letters + 6.5}}{%endif%}s; font-size: 17px; width: 30px;" class="slide-in-blurred-top bg-yellow-200">{{playgroundE[letters]}}</td>
+                      {% if i == letters and playgroundE[i] != " " %}
+                        <td style="--delaySlideBlurredTop: {% if letters == 0 %}{{letters + 5}}{%elif letter == 1 %}{{letters + 8}}{%else %}{{letters + 6}}{%endif%}s; font-size: 17px; width: 30px; " class="slide-in-blurred-top bg-green-900">{{playgroundE[letters]}}</td>
                       {% else %}
-                        <td style="--delaySlideBlurredTop: {% if letters == 0 %}{{letters + 5}}{%elif letter == 1 %}{{letters + 8}}{%else %}{{letters + 6.5}}{%endif%}s; font-size: 17px; width: 30px;" class="slide-in-blurred-top"></td>
+                        <td class="slide-in-blurred-top" style="--delaySlideBlurredTop: {% if letters == 0 %}{{letters + 5}}{%elif letter == 1 %}{{letters + 8}}{%else %}{{letters + 6.5}}{%endif%}s; font-size: 17px; width: 30px;"></td>
                       {% endif %}
                     {% endfor %}
                     <td style="--delayScaleHorLeft: {{7+(playgroundE|length)}}s; width: 119px;" class="scale-in-hor-left">-></td>
@@ -559,6 +915,7 @@
                 </table>
               </h1>
             {% endfor %}
+            
             <br>
             
             <!-- <h1 class="text-green-400 mt-5 text-2xl plaintext"> 
@@ -828,9 +1185,20 @@
   </div>
 </div>
 
+<div id="tabsContent" class="relative w-full h-full z-10 bg-stone-900 lg:ml-48 dark:bg-gray-900">
+  <div class="hidden pl-11 pt-5" id="creator" role="tabpanel" aria-labelledby="creator-tab">     
+    <div class="chat">
+      <div class="px-8 sm:px-0 ml-8">
+        <h1 class="text-green-400">Cipher creator:</h1>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>
 
-<div id="tabsContent" class="relative h-full z-10 bg-stone-900 lg:ml-64 dark:bg-gray-900 ">
-  <div class="hidden pt-5" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+
+<div id="tabsContent" class="relative h-full z-10 bg-stone-900 lg:ml-48 dark:bg-gray-900">
+  <div class="hidden pt-5" id="settings" role="tabpanel" aria-labelledby="settings-tab" style="margin-left: 4rem;">
     <div class="settingInfo">
       <h1 data-value="SETTINGS PANEL" class="settingsText mb-1 text-4xl text-center font-extrabold leading-none tracking-tight text-green-500 md:text-5xl lg:text-6xl dark:text-white">SETTINGS PANEL</h1>
       <script type="text/javascript">             
@@ -1093,8 +1461,10 @@
                       <div class="block">
                           <!-- <svg class="mb-2 text-green-400 w-7 h-7" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z"/></svg> -->
                           <svg class="mb-2 text-green-400 w-24 h-24" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#573232" stroke="#573232" stroke-width="0.24000000000000005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#3d3434"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#3094f8"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
-                          <div class="w-full text-lg font-semibold">Locked</div>
-                          <div class="w-full text-sm">Unlocked when you have sent your first message</div>
+                          <div class="w-full text-lg font-semibold"> {% if messages_sent >= 1 %}First message!{% else %}Locked{% endif %}</div>
+                          <div class="w-full text-sm">{% if messages_sent >= 1 %}Unlocked{% else %}Unlocked when you have sent your first message{% endif %}</div>
+                          {% if messages_sent >= 1 %}<div class="w-full text-sm">&nbsp;</div>{% endif %}
+
                       </div>
                   </label>
               </li>
@@ -1103,9 +1473,12 @@
                 <label for="flowbite-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-gray-700 border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                     <div class="block">
                         <!-- <svg class="mb-2 text-green-400 w-7 h-7" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z"/></svg> -->
-                        <svg class="mb-2 w-24 h-24 text-sky-500" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c3e50"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#34495e"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
-                        <div class="w-full text-lg font-semibold">Locked</div>
-                        <div class="w-full text-sm">Unlocked when you have sent five messages</div>
+                        <!-- <svg class="mb-2 w-24 h-24 text-sky-500" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c3e50"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#34495e"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg> -->
+                        <svg class="mb-2 w-24 h-24 text-sky-500" viewBox="-2.4 -2.4 28.80 28.80"  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#000000" transform="rotate(0)" stroke="#000000" stroke-width="0.168"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#2c69a5"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#ff0000"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#ecf0f1"></path> </g> </g></svg>
+                        <div class="w-full text-lg font-semibold">{% if messages_sent >= 5 %}Five messages!{% else %}Locked{% endif %}</div>
+                        <div class="w-full text-sm">{% if messages_sent >= 5 %}Unlocked{% else %}Unlocked when you have sent five messages{% endif %}</div>
+                        {% if messages_sent >= 5 %}<div class="w-full text-sm">&nbsp;</div>{% endif %}
+
                     </div>
                 </label>
             </li>
@@ -1115,8 +1488,9 @@
                   <div class="block">
                       <!-- <svg class="mb-2 text-green-400 w-7 h-7" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M356.9 64.3H280l-56 88.6-48-88.6H0L224 448 448 64.3h-91.1zm-301.2 32h53.8L224 294.5 338.4 96.3h53.8L224 384.5 55.7 96.3z"/></svg> -->
                       <svg class="mb-2 w-24 h-24" viewBox="-2.4 -2.4 28.80 28.80" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" fill="#00ff2a" stroke="#00ff2a" stroke-width="0.24000000000000005"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.9600000000000002"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#000000"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#000000"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#10ea51"></path> </g> </g><g id="SVGRepo_iconCarrier"> <g transform="translate(0 -1028.4)"> <path d="m3 1030.4c-1.1046 0-2 0.9-2 2v7 2 7c0 1.1 0.8954 2 2 2h9 9c1.105 0 2-0.9 2-2v-7-2-7c0-1.1-0.895-2-2-2h-9-9z" fill="#000000"></path> <path d="m3 2c-1.1046 0-2 0.8954-2 2v3 3 1 1 1 3 3c0 1.105 0.8954 2 2 2h9 9c1.105 0 2-0.895 2-2v-3-4-2-3-3c0-1.1046-0.895-2-2-2h-9-9z" transform="translate(0 1028.4)" fill="#000000"></path> <path d="m4 5.125v1.125l3 1.75-3 1.75v1.125l5-2.875-5-2.875zm5 4.875v1h5v-1h-5z" transform="translate(0 1028.4)" fill="#10ea51"></path> </g> </g></svg>
-                      <div class="w-full text-lg font-semibold">Locked</div>
-                      <div class="w-full text-sm">Unlocked when you have sent 10 messages</div>
+                      <div class="w-full text-lg font-semibold">{% if messages_sent >= 10 %}Ten messages!{% else %}Locked{% endif %}</div>
+                      <div class="w-full text-sm">{% if messages_sent >= 10 %}Unlocked{% else %}Unlocked when you have sent ten messages{% endif %}</div>
+                      {% if messages_sent >= 10 %}<div class="w-full text-sm">&nbsp;</div>{% endif %}
                   </div>
               </label>
           </li>
@@ -1137,21 +1511,37 @@
       $("#encryptModal").removeClass("show");
       $("#" + $('#methods input:radio:checked').val()).addClass("hidden");
     }
+   
 
     $(document).ready(function() {
-      var vigJVal = '{{vigJ}}'
+     
 
-      $('#update-variable').click(function() {
+      if (localStorage.getItem("playedAnimation") == true) {
         $.ajax({
-          url: '/vig_step',
-          success: function(response) {
-              var vigJVal = response.vigJ;
-              console.log('Variable updated to ' + vigJVal);
-              $('#vigJVal').text(vigJVal);
-
-          }
-      });
+          type: "POST",
+          url: "/vig_step",
+          data: JSON.stringify(localStorage.getItem("playedAnimation")),
+          success: function(result) {
+            console.log("Result:");
+            console.log(result);
+          } 
         });
+      }
+ 
+
+      $("#signInModal").click(function() {
+        //signBackdrop = $(".z-40");
+        signBackdrop = $("div.fixed.inset-0.z-40")
+        testbing = $("#Vigenere");
+
+        console.log(signBackdrop);
+        console.log(testbing);  
+        signBackdrop.removeClass("z-40");
+        signBackdrop.addClass("z-20");
+        signBackdrop.css({"z-index":"20!important"});
+     //   signBackdrop.css({"--tw-bg-opacity":"0.9!important"});
+      });
+      
 
         var currentEncryption = $('#methods input:radio:checked').val();
         var encryptionMethod = $('#methods input:radio:checked').val();
@@ -1166,6 +1556,17 @@
             $(modalBackdrop).removeClass("modal-backdrop")
             $("#" + encryptionMethod).css({"position": ""});
         }); 
+
+        $('#replayAnimation').click(function(){
+          // restart animation
+          var me = $(".caeserVisual");
+          this.style.animation = 'none';
+          setTimeout(function() {
+              me.style.animation = '';
+          }, 10);
+          });
+      
+        
         
         $('.sev_check').click(function() {
           $('.sev_check').not(this).prop('checked', false);
@@ -1185,7 +1586,9 @@
               $( "#light-toggle" ).prop( "checked", true );
 
               $('span, svg, div, h5, h1, strong').addClass('text-gray-500').removeClass('text-green-400');
+              $('h1').addClass('text-gray-500').removeClass('text-green-500');
               $('div.sidebar').addClass('bg-purple-900').removeClass('bg-stone-900');
+              $('div.settings').addClass('bg-gray-100').removeClass('bg-stone-900');
               $('div.messages').addClass('bg-gray-100').removeClass('bg-green-500');
               $('body').css('background-color', 'white');
               console.log('Light mode toggle was clicked');
@@ -1226,6 +1629,7 @@
         socket.on("message", function(msg) {
             $("#messages").append("<li>"+msg+"</li>");
             console.log("Received message");
+            location.reload();
         });
         $("#sendbutton").on("click", function() {
             socket.send($("#myMessage").val());
@@ -1280,6 +1684,8 @@
       
   });
 </script>
+
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='sign.js') }}"></script> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
