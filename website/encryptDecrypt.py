@@ -3,31 +3,11 @@ import math
 import numpy as np
 import nltk
 from nltk.corpus import stopwords
+from collections import Counter
 from sympy import Matrix
 from egcd import egcd
 import string
-  
-def caeserBreaker(message):
-    commonWords = stopwords.words('english')
-    key = 0
-    wordsRecog = [0]*26
 
-    for i in range(1, 27):
-        decryptTry = decryptCaeser(message, i)
-        for j in decryptTry.split():
-            if j.lower() in commonWords:
-                wordsRecog[i-1] += 1
-    key = wordsRecog.index(max(wordsRecog))+1
-
-    if key > 0:
-        print(f"Decrypted Message: {decryptCaeser(message, key)}")
-        print(f"The key was: {key}")
-        return
-    else:
-        print("No suitable key found!")
-        return
-
-    print(f"Decrypted Message: {decryptTry}")
 """
 LEARN ABOUT THE DIFFERENT TYPES OF CIPHERS
 """
@@ -430,159 +410,99 @@ def playfairCipher(message, key, fillerLetter = "z", decrypt = 1):
 def decryptPlayfair(message, key):
     return playfairCipher(message, key, decrypt = -1)
 
-#VARCHAMPT CIPHER ENCRYPTION
-def varcamtCipher(message, key, alphabet, shift, a, b):
-    #Vigenere Cipher
-    #Atbash Cipher
-    #Rot13 Cipher
-    #Caeser Cipher
-    #Affine cipher
-    #Monoalphabetic cipher
-    #Trithemius cipher
-    vig = vigCipher(message, key)
-    atbash = atbashCipher(vig)
-    rot13 = rot13Cipher(atbash)
-    caeser = caeserCipher(rot13, shift)
-    affine = affineCipher(caeser, a, b)
-    mono = monoCipher(affine, alphabet)
-    trith = trithCipher(mono, True)
-    return trith
-
-def decryptVarcamt(message, key, alphabet, shift, a, b):
-    mono = decryptTrithemius(message, True)
-    affine = decryptMono(mono, alphabet)
-    caeser = decryptAffine(affine, a, b)
-    rot13 = decryptCaeser(caeser, shift)
-    atbash = decryptRot13(rot13)
-    vig = decryptAtbash(atbash)
-    decrypted = decryptVigenere(vig, key)
-    return decrypted
 
 
-
-
-
-
-
-
-def Venigma(message, key):
-    #Key must be length of a square number
-    #String must the length of a multiple of the key
-
-    #Convert the key 
-    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    def convertStringNumer(string):
-        return [alphabet.index(i) for i in string]
-    def convertNumArString(arr):
-        return "".join([alphabet[i] for i in arr])
-##    print(convertNumArString([17, 0]))
-    messSpaces = message
-    message = message.replace(" ", "").upper()
-    key = key.upper()
-    keyAlpha = np.array([alphabet.index(i)+1 for i in key]).reshape(int(math.sqrt(len(key))), int(math.sqrt(len(key))))
-    messSplit = [message[i:i+int(math.sqrt(len(key)))] for i in range(0, len(message), int(math.sqrt(len(key))))]    
-##    print(keyAlpha)
-##    print(messSplit)
-    keyIter = [(key[0:len(messSplit)] * int(math.sqrt(len(key))))[i:i+int(math.sqrt(len(key)))] for i in range(0, len((key[0:len(messSplit)] * int(math.sqrt(len(key))))), int(math.sqrt(len(key))))] 
-    print(keyIter)
-    for i in range(0, len(messSplit)):      
-        messSplit[i] = vigCipher(messSplit[i], keyIter[i])
-    mLen = len(messSplit)
-##    print(messSplit)
-    for i in range(0, len(messSplit)):
-        messSplit[i] = convertStringNumer(messSplit[i])
-##    print(messSplit)
-    messSplit = np.array(messSplit)
-    keyNumAr = ((messSplit @ keyAlpha))
-    print(keyNumAr)
-    encrypted = "".join([convertNumArString(keyNumAr[i].tolist()) for i in range(0, len(keyNumAr))])
-    return encrypted
-    
-def decryptVenigma(message, key):
-    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    def convertStringNumer(string):
-        return [alphabet.index(i) for i in string]
-    def convertNumArString(arr):
-        return "".join([alphabet[i] for i in arr])
-    key = key.upper()
-    keyAlpha = np.array([alphabet.index(i)+1 for i in key]).reshape(int(math.sqrt(len(key))), int(math.sqrt(len(key))))
-    messSplit = [message[i:i+int(math.sqrt(len(key)))] for i in range(0, len(message), int(math.sqrt(len(key))))]    
-    keyIter = [(key[0:len(messSplit)] * int(math.sqrt(len(key))))[i:i+int(math.sqrt(len(key)))] for i in range(0, len((key[0:len(messSplit)] * int(math.sqrt(len(key))))), int(math.sqrt(len(key))))] 
-    messNums = []
-    for i in range(0, len(messSplit)):
-        messNums.append(convertStringNumer(messSplit[i]))
-    messNums = Matrix((np.array(messNums)).reshape(len(messSplit), int(len(messSplit)/2)))
-    print(messNums)
-    invMess = messNums.inv_mod(26)
-    print(invMess)
-    
-def frequencyAnalysis(message):
-    message = message.upper()
-    mostUsedLetters = list("etaoinshrdlcumwfgypbvkjxqz".upper())
-    mostUsedFreqs = [12.7, 9.1, 8.2, 7.5, 7.0, 6.7, 6.3, 6.1, 6.0, 4.3, 4.0, 2.8, 2.8, 2.4, 2.4, 2.2, 2.0, 2.0, 1.9, 1.5, 1.0, 0.8, 0.15, 0.15, 0.10, 0.07]
-    mostUsed = dict(zip(mostUsedLetters, mostUsedFreqs))
-
-    messageLetters = list(set("".join([i for i in message if i.isalpha()])))
-    messageFreqs = [round(message.count(i)/len(message)*100, 1) for i in messageLetters]
-    messageFreqs = dict(zip(messageLetters, messageFreqs))
-    messageP = sorted(list(messageFreqs.values()), reverse = True)
-    
-    print(mostUsed)
-    print("")
-    print(messageFreqs)
-    print("\n")
-    
-    commonWords = stopwords.words("english")
-    attempts = []
-    originalMessage = message
-
-    print("Common most used", mostUsedFreqs)
-    print("")
-    print("Message most used", messageP)
-    print("")
-
-    messageMostCommon = sorted(messageFreqs, key=messageFreqs.get, reverse=True)
-    commonLetters = list(filter(lambda x: x in "".join(messageMostCommon), "".join(mostUsedLetters)))
-    messageList = list(message)
-
-    verification = [0]*26
-    for i in range(0, len(messageList)):
-        if messageList[i] in messageMostCommon:
-            messageList[i] = commonLetters[messageMostCommon.index(messageList[i])]
-            
-    attempts.append("".join(messageList))
-    for i in attempts[0]:
-        if i in commonWords:
-            verification[0] += 1
-
-    for i in range(0, len(messageP)):
-        if messageP[i] == messageP[-1]:
-            break
-        elif messageP[i] == messageP[i+1]:
-            pass
-    print(commonLetters)
-    print(messageMostCommon)
-    print("\n")
-    print(attempts[0])
-    print(verification)
-
-# Cheese is a beloved food for many, and it's not hard to see why. With its wide range of flavors and textures, there's a 
-# cheese out there for everyone. From the sharp tang of cheddar to the creamy richness of brie, there are countless varieties of 
-# cheese to enjoy. Cheese is also incredibly versatile, making it a staple ingredient in many different cuisines around the world.
-# It can be melted on top of pizza, grated over pasta, or used to add a delicious tang to a sandwich. 
-# Additionally, cheese is a great source of protein and calcium, making it a healthy and satisfying snack. 
-# Whether enjoyed on its own or incorporated into a dish, cheese is a food that brings people together and adds a delicious, 
-# comforting element to any meal.
-
-print(frequencyAnalysis("Hmjjxj nx f gjqtaji ktti ktw rfsd, fsi ny'x sty mfwi yt xjj bmd. Bnym nyx bnij wfslj tk kqfatwx fsi yjcyzwjx, ymjwj'x f hmjjxj tzy ymjwj ktw jajwdtsj. Kwtr ymj xmfwu yfsl tk hmjiifw yt ymj hwjfrd wnhmsjxx tk gwnj, ymjwj fwj htzsyqjxx afwnjynjx tk hmjjxj yt jsotd. Hmjjxj nx fqxt nshwjingqd ajwxfynqj, rfpnsl ny f xyfuqj nslwjinjsy ns rfsd inkkjwjsy hznxnsjx fwtzsi ymj btwqi. Ny hfs gj rjqyji ts ytu tk uneef, lwfyji tajw ufxyf, tw zxji yt fii f ijqnhntzx yfsl yt f xfsibnhm. Fiinyntsfqqd, hmjjxj nx f lwjfy xtzwhj tk uwtyjns fsi hfqhnzr, rfpnsl ny f mjfqymd fsi xfynxkdnsl xsfhp. Bmjymjw jsotdji ts nyx tbs tw nshtwutwfyji nsyt f inxm, hmjjxj nx f ktti ymfy gwnslx ujtuqj ytljymjw fsi fiix f ijqnhntzx, htrktwynsl jqjrjsy yt fsd rjfq."))
 
 """
-#CREATE CUSTOM CIPHER
-#Possible names:
-#Vihcrypt
-#Vihenigma
-#Vinigma
+CODEBREAKERS
 """
+
+def frequencies(ciphertext):
+    cipherUpdated = "".join(e for e in ciphertext if e.isalnum())
+    freqDict = Counter(cipherUpdated)
+    return freqDict, cipherUpdated
+
+def crackShiftCipher(ciphertext):
+    letterFrequency = {'e' : 12.7,
+        't' : 9.1,
+        'a' : 8.2,
+        'o' : 7.5,
+        'i' : 7.0,
+        'n' : 6.7,
+        's' : 6.3,
+        'h' : 6.1,
+        'r' : 6.0,
+        'd' : 4.3,
+        'l' : 4.0,
+        'u' : 2.8,
+        'c' : 2.8,
+        'm' : 2.4,
+        'w' : 2.3,
+        'f' : 2.2,
+        'g' : 2.0,
+        'y' : 2.0,
+        'p' : 1.9,
+        'b' : 1.5,
+        'v' : 1.0,
+        'k' : 0.8,
+        'j' : 0.2,
+        'x' : 0.1,
+        'z' : 0.1,
+        'q' : 0.1 }
+    freqDict, cipherUpdated = frequencies(ciphertext)
+    differences = []
+    sum = 0
+    for key in range(0, 26):
+        possible_decryption = decryptCaeser(ciphertext, key)
+        for letter in list(possible_decryption):
+            if letter in letterFrequency.keys():
+                probability = (1/26) * (letterFrequency[letter] / len(cipherUpdated))
+                sum += probability
+        differences.append(sum)
+        sum = 0
+
+    decryptedKey = np.where(differences == np.max(differences))[0][0]
+    decryption = decryptCaeser(ciphertext, decryptedKey)
+
+    return decryption, decryptedKey
+
+def crackVigenereCipher(ciphertext):
+    def lowestDiv(n):
+        return min([i for i in range(2, int(math.sqrt(n)) + 1) if n % i == 0] + [n])
+
+    print(ciphertext, "\n")
+    freqDict, cipherUpdated = frequencies(ciphertext.lower())
+    tri = list(filter(lambda x: len(x) == 3, ciphertext.split()))
+    triSet = set(list(filter(lambda x: len(x) == 3, ciphertext.split())))
+    triDuplicates = set(list(filter(lambda x: Counter(tri)[x]>1, tri)))
+    hasDuplicates = not(len(triSet) == len(tri))
+    triDuplicateLens = [{i: (len("".join([j for j in ciphertext.split(i)[1] if j.isalpha()]))+3, lowestDiv(len("".join([j for j in ciphertext.split(i)[1] if j.isalpha()]))+3)) } for i in triDuplicates]
+    triDuplicateLens2 = np.array([[ciphertext.split(i)] for i in triDuplicates])
+    print(triDuplicateLens)
+##    print(triDuplicateLens2)
+##    print(hasDuplicates)
+##    print(tri)
+##    print(triSet)
+    print(triDuplicates)
+##    print(freqDict)
+    
+
+
+
+## Cheese is a beloved food for many, and it's not hard to see why. With its wide range of flavors and textures, there's a 
+## cheese out there for everyone. From the sharp tang of cheddar to the creamy richness of brie, there are countless varieties of 
+## cheese to enjoy. Cheese is also incredibly versatile, making it a staple ingredient in many different cuisines around the world.
+## It can be melted on top of pizza, grated over pasta, or used to add a delicious tang to a sandwich. 
+## Additionally, cheese is a great source of protein and calcium, making it a healthy and satisfying snack. 
+## Whether enjoyed on its own or incorporated into a dish, cheese is a food that brings people together and adds a delicious, 
+## comforting element to any meal.
+
+##print(crackShiftCipher("Hmjjxj nx f gjqtaji ktti ktw rfsd, fsi ny'x sty mfwi yt xjj bmd. Bnym nyx bnij wfslj tk kqfatwx fsi yjcyzwjx, ymjwj'x f hmjjxj tzy ymjwj ktw jajwdtsj. Kwtr ymj xmfwu yfsl tk hmjiifw yt ymj hwjfrd wnhmsjxx tk gwnj, ymjwj fwj htzsyqjxx afwnjynjx tk hmjjxj yt jsotd. Hmjjxj nx fqxt nshwjingqd ajwxfynqj, rfpnsl ny f xyfuqj nslwjinjsy ns rfsd inkkjwjsy hznxnsjx fwtzsi ymj btwqi. Ny hfs gj rjqyji ts ytu tk uneef, lwfyji tajw ufxyf, tw zxji yt fii f ijqnhntzx yfsl yt f xfsibnhm. Fiinyntsfqqd, hmjjxj nx f lwjfy xtzwhj tk uwtyjns fsi hfqhnzr, rfpnsl ny f mjfqymd fsi xfynxkdnsl xsfhp. Bmjymjw jsotdji ts nyx tbs tw nshtwutwfyji nsyt f inxm, hmjjxj nx f ktti ymfy gwnslx ujtuqj ytljymjw fsi fiix f ijqnhntzx, htrktwynsl jqjrjsy yt fsd rjfq."))
+print(crackVigenereCipher("DAZFI SFSPA VQLSN PXYSZ WXALC DAFGQ UISMT PHZGA MKTTF TCCFX KFCRG GLPFE TZMMM ZOZDE ADWVZ WMWKV GQSOH QSVHP WFKLS LEASE PWHMJ EGKPU RVSXJ XVBWV POSDE TEQTX OBZIK WCXLW NUOVJ MJCLL OEOFA ZENVM JILOW ZEKAZ EJAQD ILSWW ESGUG KTZGQ ZVRMN WTQSE OTKTK PBSTA MQVER MJEGL JQRTL GFJYG SPTZP GTACM OECBX SESCI YGUFP KVILL TWDKS ZODFW FWEAA PQTFS TQIRG MPMEL RYELH QSVWB AWMOS DELHM UZGPG YEKZU KWTAM ZJMLS EVJQT GLAWV OVVXH KWQIL IEUYS ZWXAH HUSZO GMUZQ CIMVZ UVWIF JJHPW VXFSE TZEDF".lower()))
+
+##print(crackVigenereCipher("Jlppg xjpw mk gqvp"))
+
+
 
 """
 #IMPLEMENTATIONS

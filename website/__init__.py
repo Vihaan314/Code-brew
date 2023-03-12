@@ -38,6 +38,7 @@ def saveMessage(msg, usersNum=0):
     method = getMethod()
     key = getKey()
     receiver= "".join([str(i) for i in range(1, usersNum+1)])
+    
            
     if method == "Caeser":
         message = Note(data=msg, user_id=current_user.id, encryption=1, message_key=key)
@@ -69,7 +70,11 @@ def saveMessage(msg, usersNum=0):
         message.data = encryptDecrypt.affineCipher(message.data, a, b)
 
     print(message)
+    
     db.session.add(message)
+    messagesSent = len(list(filter(lambda x: x.user_id == current_user.id, Note.query.all())))
+    currentUser = User.query.filter_by(first_name=current_user.first_name).order_by(User.messages_sent).first()
+    currentUser.messages_sent = messagesSent
     db.session.commit()
 
 # def deleteMessage(id):

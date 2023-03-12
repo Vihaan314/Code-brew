@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, session
 from flask_login import login_required, current_user
+import math
 # from . import Note
 from .models import User, Note
 # from .models import History
@@ -13,11 +14,13 @@ import random
 
 views = Blueprint('views', __name__)
 
-vigJ = ""
-@views.route('/vig_step')
+playedAnimation = ""
+
+@views.route('/vig_step', methods=['POST'])
 def vig_step():
-    vigJ = 2
-    return jsonify({'vigJ': vigJ})
+    playedAnimation = list(request.form)
+    if playedAnimation:
+        return playedAnimation[0]
 
 
 @views.route('/', methods=['GET', 'POST'])
@@ -64,11 +67,26 @@ def home():
     alphabetVisual = ""
     vigJ = ""
     
+    shiftDecrypted = ""
+    shiftKey = ""
+
+
+    
+
     if request.method == "POST":
         newVal = " ".join(request.values.to_dict().values())
         newKey = "".join(request.values.to_dict().keys())
         playground = newVal
         playgroundThings = request.form
+        if newKey == "shiftBreakervigenereBreaker":
+            if request.form["shiftBreaker"]:
+                ciphertext = request.form["shiftBreaker"]
+                shiftDecrypted, shiftKey = encryptDecrypt.crackShiftCipher(ciphertext)
+            if request.form["vigenereBreaker"]:
+                ciphertext = request.form["vigenereBreaker"]
+
+
+
         if newKey == "playgroundMethodplayEncryptencryptKeyplayDecrypt":
             if request.form["playEncrypt"]:
                 if playground.split()[0] not in ["Caeser", "Atbash", "Monoalphabetic", "Vigenere", "Trithemius", "Affine"]:
@@ -103,8 +121,13 @@ def home():
                         playgroundMethod = "Vigenere"
                         alphabetVisual = np.array([encryptDecrypt.caeserCipher("ABCDEFGHIJKLMNOPQRSTUVWXYZ", i) for i in range(0, 26)])
                         playgroundKey = request.form["encryptKey"]
-                        
-                        playgroundE = encryptDecrypt.vigCipher(request.form["playEncrypt"], playgroundKey)
+                        playgroundKey *= (math.ceil(len(request.form["playEncrypt"]) / len(playgroundKey)))
+                        for i in range(0, len(request.form["playEncrypt"])):
+                            if request.form["playEncrypt"][i] == " ":
+                                playgroundKey = playgroundKey[0:i] + " " + playgroundKey[i:len(playgroundKey)] 
+                        playgroundKey = playgroundKey[0:len(request.form["playEncrypt"])]
+
+                        playgroundE = encryptDecrypt.vigCipher(request.form["playEncrypt"], request.form["encryptKey"])
                         plaintext = request.form["playEncrypt"]
                         vigWord = [i for i in range(0, len(playgroundE))]
                         vigJ = vigWord[1]
@@ -237,6 +260,9 @@ def home():
                                         regularAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                                         randomWords = randomWords,
                                         randomWord = randomWord,
-                                        vigWord = vigWord,
-                                        vigJ = vigJ
+                                        shiftDecrypted = shiftDecrypted,
+                                        playedAnimation =playedAnimation,
+                                        shiftKey = shiftKey,
+                                        messages_sent = current_user.messages_sent,
+                                        allUsers =  [User.query.get(i) for i in range(1, len(User.query.all())+1)],
                                         )
