@@ -5,10 +5,12 @@ from website import create_app
 # from website import db
 from website import saveMessage, deleteMessage
 from website import encryptDecrypt
+
 # from website import getUsers
 
 app = create_app()
 socketio = SocketIO(app)
+
 
 @socketio.on("message")
 def handleMessage(msg):
@@ -31,12 +33,11 @@ def privateMessage(msg, receiver):
 #     deleteMessage(user)
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True) #host="0.0.0.0", port = 80
+    socketio.run(app, debug=True) 
 
 
 
 
-#how do I write code that returns the checks if the largest element is the same as the the second largest element in a list?
 
 
 

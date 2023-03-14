@@ -7,4 +7,9 @@ module.exports = {
   plugins: [],
   important: true,
   mode: 'jit',
+  extend: {
+    spacing: {
+      '192': '48rem',
+    },
+  }
 }
