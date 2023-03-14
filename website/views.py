@@ -23,6 +23,7 @@ def vig_step():
         return playedAnimation[0]
 
 
+
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():    
@@ -58,6 +59,8 @@ def home():
     plaintext = ""
     vigWord = ""
 
+    playgroundUse = ""
+
     playgroundKey = ""
     playgroundMethod = ""
     playgroundA = ""
@@ -70,7 +73,11 @@ def home():
     shiftDecrypted = ""
     shiftKey = ""
 
+    encryptRandom = ""
+    randomKey = ""
 
+    decryptedVigenere = ""
+    vigenereKey = ""
     
 
     if request.method == "POST":
@@ -84,11 +91,21 @@ def home():
                 shiftDecrypted, shiftKey = encryptDecrypt.crackShiftCipher(ciphertext)
             if request.form["vigenereBreaker"]:
                 ciphertext = request.form["vigenereBreaker"]
+                decryptedVigenere = encryptDecrypt.add_punctuation_back(ciphertext)
+                vigenereKey = encryptDecrypt.vigenere_attack(ciphertext, range(0, 26))
+                
+        if newKey == "cryptogram":
+            randSentence = misc.randomSentence()
+            randomKey = random.randint(1, 27)
+            encryptRandom = encryptDecrypt.caeserCipher(randSentence, randomKey)
+                
 
 
 
-        if newKey == "playgroundMethodplayEncryptencryptKeyplayDecrypt":
+        if newKey == "playgroundMethodplayEncryptencryptKeyplayDecryptdecryptKey":
             if request.form["playEncrypt"]:
+                playgroundUse = "encrypt"
+
                 if playground.split()[0] not in ["Caeser", "Atbash", "Monoalphabetic", "Vigenere", "Trithemius", "Affine"]:
                     flash('Please choose an encryption method', category='error')
                 elif not request.form["encryptKey"] and playground.split()[0] in ["Caeser", "Monoalphabetic", "Vigenere", "Trithemius", "Affine"]:
@@ -152,21 +169,75 @@ def home():
                         plaintext = request.form["playEncrypt"]
                     
             if request.form["playDecrypt"]:
+                playgroundUse = "decrypt"
+
+                if playground.split()[0] not in ["Caeser", "Atbash", "Monoalphabetic", "Vigenere", "Trithemius", "Affine"]:
+                    flash('Please choose an encryption method', category='error')
+                elif not request.form["decryptKey"] and playground.split()[0] in ["Caeser", "Monoalphabetic", "Vigenere", "Trithemius", "Affine"]:
+                    flash('Please enter a key', category='error')
+                
                 if playground.split()[0] == "Caeser":
-                    playgroundD = encryptDecrypt.decryptCaeser(request.form["playDecrypt"], 3)
-                    shiftedAlphabet = [encryptDecrypt.caeserCipher("ABCDEFGHIJKLMNOPQRSTUVWXYZ", i) for i in range(1, 4)]
-                    plaintext = request.form["playDecrypt"]
+                        playgroundMethod = "Caeser"
+
+                        playgroundKey = request.form["decryptKey"]
+                        playgroundE = encryptDecrypt.decryptCaeser(request.form["playDecrypt"], int(playgroundKey))
+                        shiftedAlphabet = [encryptDecrypt.decryptCaeser("ABCDEFGHIJKLMNOPQRSTUVWXYZ", i) for i in range(1, int(playgroundKey)+1)]
+                        plaintext = request.form["playDecrypt"]
 
                 elif playground.split()[0] == "Atbash":
-                    playgroundD = encryptDecrypt.decryptAtbash(request.form["playDecrypt"])
+                    playgroundMethod = "Atbash"
+
+                    playgroundE = encryptDecrypt.decryptAtbash(request.form["playDecrypt"])
+                    shiftedAlphabet = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"[::-1]]
+                    plaintext = request.form["playDecrypt"]
+                    
                 elif playground.split()[0] == "Monoalphabetic":
-                    playgroundD = encryptDecrypt.decryptMono(request.form["playDecrypt"], "QWERTYUIOPASDFGHJKLZXCVBNM")
+                    playgroundMethod = "Monoalphabetic"
+
+                    playgroundKey = request.form["decryptKey"]
+                    shiftedAlphabet = [request.form["decryptKey"]]
+                    playgroundE = encryptDecrypt.decryptMono(request.form["playDecrypt"], playgroundKey)
+                    plaintext = request.form["playDecrypt"]
+
                 elif playground.split()[0] == "Vigenere":
-                    playgroundD = encryptDecrypt.decryptVigenere(request.form["playDecrypt"], "KEY")
+                    playgroundMethod = "Vigenere"
+                    alphabetVisual = np.array([encryptDecrypt.caeserCipher("ABCDEFGHIJKLMNOPQRSTUVWXYZ", i) for i in range(0, 26)])
+                    playgroundKey = request.form["decryptKey"]
+                    playgroundKey *= (math.ceil(len(request.form["playDecrypt"]) / len(playgroundKey)))
+                    for i in range(0, len(request.form["playDecrypt"])):
+                        if request.form["playDecrypt"][i] == " ":
+                            playgroundKey = playgroundKey[0:i] + " " + playgroundKey[i:len(playgroundKey)] 
+                    playgroundKey = playgroundKey[0:len(request.form["playDecrypt"])]
+
+                    playgroundE = encryptDecrypt.decryptVigenere(request.form["playDecrypt"], request.form["decryptKey"])
+                    plaintext = request.form["playDecrypt"]
+                    vigWord = [i for i in range(0, len(playgroundE))]
+                    vigJ = vigWord[1]
+
                 elif playground.split()[0] == "Trithemius":
-                    playgroundD = encryptDecrypt.decryptTrithemius(request.form["playDecrypt"], ascending = True)
+                    plaintext = request.form["playDecrypt"]
+                    playgroundMethod = "Trithemius"
+                    playgroundIndices = ",\n+".join(list(map(str, [i for i, c in enumerate(plaintext) if c == "l"])))
+                    playgroundKey = request.form["decryptKey"]
+                    if playgroundKey.lower() == "ascending":
+                        playgroundE = encryptDecrypt.decryptTrithemius(request.form["playDecrypt"], ascending = True)
+                    elif playgroundKey.lower() == "descending":
+                        playgroundE = encryptDecrypt.decryptTrithemius(request.form["playDecrypt"], ascending = False)
+
                 elif playground.split()[0] == "Affine":
-                    playgroundD = encryptDecrypt.decryptAffine(request.form["playDecrypt"], 17, 20)
+                    playgroundMethod = "Affine"
+
+                    playgroundKey = request.form["decryptKey"]
+                    playgroundA = int(playgroundKey.split()[0])
+                    playgroundB = int(playgroundKey.split()[1])
+                    playgroundE = encryptDecrypt.decryptAffine(request.form["playDecrypt"], playgroundA, playgroundB)
+                    plaintext = request.form["playDecrypt"]
+
+
+
+
+
+                    
         key = newVal
 
         if newKey == "CaeserShift":
@@ -241,6 +312,7 @@ def home():
                                         userE = user_encryption,
                                         newVal = newVal,
                                         newKey = newKey,
+                                        playgroundUse = playgroundUse,
                                         playground = playground,
                                         playgroundE = playgroundE,
                                         playgroundD = playgroundD,
@@ -265,4 +337,9 @@ def home():
                                         shiftKey = shiftKey,
                                         messages_sent = current_user.messages_sent,
                                         allUsers =  [User.query.get(i) for i in range(1, len(User.query.all())+1)],
+                                        sentenceKey = randomKey,
+                                        randomSentence = encryptRandom,
+                           
+                                        decryptedVigenere = decryptedVigenere,
+                                        vigenereKey = vigenereKey
                                         )

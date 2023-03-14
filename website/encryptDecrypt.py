@@ -7,6 +7,56 @@ from collections import Counter
 from sympy import Matrix
 from egcd import egcd
 import string
+from queue import Queue
+import re
+
+
+lowercase = {'a':0, 'b':1, 'c':2, 'd':3, 'e':4, 'f':5, 'g':6, 'h':7, 'i':8,
+         'j':9, 'k':10, 'l':11, 'm':12, 'n':13, 'o':14, 'p':15, 'q':16,
+         'r':17, 's':18,  't':19, 'u':20, 'v':21, 'w':22, 'x':23, 'y':24,
+         'z':25}
+
+uppercase ={'A':0, 'B':1, 'C':2, 'D':3, 'E':4, 'F':5, 'G':6, 'H':7, 'I':8,
+         'J':9, 'K':10, 'L':11, 'M':12, 'N':13, 'O':14, 'P':15, 'Q':16,
+         'R':17, 'S':18,  'T':19, 'U':20, 'V':21, 'W':22, 'X':23, 'Y':24,
+         'Z':25}
+
+inv_lowercase = {0:'a', 1:'b', 2:'c', 3:'d', 4:'e', 5:'f', 6:'g', 7:'h', 8:'i',
+         9:'j', 10:'k', 11:'l', 12:'m', 13:'n', 14:'o', 15:'p', 16:'q',
+         17:'r', 18:'s', 19:'t', 20:'u', 21:'v', 22:'w', 23:'x', 24:'y',
+         25:'z'}
+
+inv_uppercase = {0:'A', 1:'B', 2:'C', 3:'D', 4:'E', 5:'F', 6:'G', 7:'H',
+                 8:'I', 9:'J', 10:'K', 11:'L', 12:'M', 13:'N', 14:'O', 15:'P',
+                 16:'Q', 17:'R', 18:'S', 19:'T', 20:'U', 21:'V', 22:'W', 23:'X',
+                 24:'Y', 25:'Z'}
+
+letterFrequency = {'e' : 12.7,
+'t' : 9.1,
+'a' : 8.2,
+'o' : 7.5,
+'i' : 7.0,
+'n' : 6.7,
+'s' : 6.3,
+'h' : 6.1,
+'r' : 6.0,
+'d' : 4.3,
+'l' : 4.0,
+'u' : 2.8,
+'c' : 2.8,
+'m' : 2.4,
+'w' : 2.3,
+'f' : 2.2,
+'g' : 2.0,
+'y' : 2.0,
+'p' : 1.9,
+'b' : 1.5,
+'v' : 1.0,
+'k' : 0.8,
+'j' : 0.2,
+'x' : 0.1,
+'z' : 0.1,
+'q' : 0.1 }
 
 """
 LEARN ABOUT THE DIFFERENT TYPES OF CIPHERS
@@ -466,27 +516,198 @@ def crackShiftCipher(ciphertext):
 
     return decryption, decryptedKey
 
-def crackVigenereCipher(ciphertext):
-    def lowestDiv(n):
-        return min([i for i in range(2, int(math.sqrt(n)) + 1) if n % i == 0] + [n])
+# def crackVigenereCipher(ciphertext):
+#     def lowestDiv(n):
+#         return min([i for i in range(2, int(math.sqrt(n)) + 1) if n % i == 0] + [n])
 
-    print(ciphertext, "\n")
-    freqDict, cipherUpdated = frequencies(ciphertext.lower())
-    tri = list(filter(lambda x: len(x) == 3, ciphertext.split()))
-    triSet = set(list(filter(lambda x: len(x) == 3, ciphertext.split())))
-    triDuplicates = set(list(filter(lambda x: Counter(tri)[x]>1, tri)))
-    hasDuplicates = not(len(triSet) == len(tri))
-    triDuplicateLens = [{i: (len("".join([j for j in ciphertext.split(i)[1] if j.isalpha()]))+3, lowestDiv(len("".join([j for j in ciphertext.split(i)[1] if j.isalpha()]))+3)) } for i in triDuplicates]
-    triDuplicateLens2 = np.array([[ciphertext.split(i)] for i in triDuplicates])
-    print(triDuplicateLens)
-##    print(triDuplicateLens2)
-##    print(hasDuplicates)
-##    print(tri)
-##    print(triSet)
-    print(triDuplicates)
-##    print(freqDict)
+#     print(ciphertext, "\n")
+#     freqDict, cipherUpdated = frequencies(ciphertext.lower())
+#     tri = list(filter(lambda x: len(x) == 3, ciphertext.split()))
+#     triSet = set(list(filter(lambda x: len(x) == 3, ciphertext.split())))
+#     triDuplicates = set(list(filter(lambda x: Counter(tri)[x]>1, tri)))
+#     hasDuplicates = not(len(triSet) == len(tri))
+#     triDuplicateLens = [{i: (len("".join([j for j in ciphertext.split(i)[1] if j.isalpha()]))+3, lowestDiv(len("".join([j for j in ciphertext.split(i)[1] if j.isalpha()]))+3)) } for i in triDuplicates]
+#     triDuplicateLens2 = np.array([[ciphertext.split(i)] for i in triDuplicates])
+#     print(triDuplicateLens)
+# ##    print(triDuplicateLens2)
+# ##    print(hasDuplicates)
+# ##    print(tri)
+# ##    print(triSet)
+#     print(triDuplicates)
+# ##    print(freqDict)
     
 
+
+K = range(0, 26)  # the key space
+
+
+#  Vigenere encryption
+def vigenere_encryption(plaintext, key):
+
+    ciphertext = ""
+    plaintext_updated = ''.join(e for e in plaintext if e.isalnum())
+
+    for i in range(0, len(plaintext_updated)):
+        element = plaintext_updated[i]
+        if element.lower() in letterFrequency.keys():
+            cipher_element = (lowercase[element.lower()] + lowercase[key[i % len(key)].lower()]) % 26
+            encrypted_letter = inv_lowercase[cipher_element]
+            ciphertext += encrypted_letter
+        else:
+            ciphertext += element
+
+    return ciphertext
+
+
+#  Vigenere decryption
+def vigenere_decryption(ciphertext, key):
+
+    plaintext = ""
+    ciphertext_updated = ''.join(e for e in ciphertext if e.isalnum())
+
+    for i in range(0, len(ciphertext_updated)):
+        element = ciphertext_updated[i]
+        if element.lower() in letterFrequency.keys():
+            plain_element = (lowercase[element.lower()] - lowercase[key[i % len(key)].lower()]) % 26
+            decrypted_letter = inv_lowercase[plain_element]
+            plaintext += decrypted_letter
+        else:
+            plaintext += element
+
+    return plaintext
+
+
+#  Shift decryption from the first question
+def shift_cipher_dec(ciphertext, key):
+    plaintext = ''
+    ciphertext_updated = ''.join(e for e in ciphertext if e.isalnum())
+
+    for letter in ciphertext_updated:
+        if letter.lower() in letterFrequency.keys():
+            decrypted_int = (lowercase[letter.lower()] - key) % 26
+            decrypted_letter = inv_lowercase[decrypted_int]
+            plaintext += decrypted_letter
+        else:
+            plaintext += letter
+    return plaintext
+
+
+# This function finds the recurring words in a ciphertext
+def find_recurring_words(ciphertext):
+    no_punctuation_ciphertext = re.sub(r'[^\w\s]', '', ciphertext)
+    cipher_array = list(no_punctuation_ciphertext.split())
+    merged_ciphertext = ""
+
+    for element in no_punctuation_ciphertext:
+        if element in lowercase.keys() or uppercase.keys():
+            merged_ciphertext += element
+
+    merged_ciphertext = merged_ciphertext.replace(" ", "")
+    merged_ciphertext = merged_ciphertext.replace("\n", "")
+    unique_words = set(cipher_array)
+
+    recurring_words = {}
+    for word in unique_words:
+        if cipher_array.count(word) > 1:
+            recurring_words[word] = cipher_array.count(word)
+
+    return merged_ciphertext, recurring_words, cipher_array
+
+
+# This function finds the recurring words' indexes in a given ciphertext
+def find_recurring_word_placements(ciphertext):
+
+    index_dictionary = {}
+    merged_ciphertext, recurring_words, cipher_array = find_recurring_words(ciphertext)
+
+    for element in cipher_array:
+        if element in recurring_words.keys():
+            index_dictionary[element] = [index for index, el in enumerate(cipher_array) if el == element]
+
+    return index_dictionary, merged_ciphertext, recurring_words, cipher_array
+
+
+def find_key_length_kasiski(ciphertext):
+
+    index_dictionary, merged_ciphertext, recurring_words, cipher_array = find_recurring_word_placements(ciphertext)
+
+    distances = []
+    for element, indexes in index_dictionary.items():
+        substring = ""
+        for word in cipher_array[indexes[0]+1:indexes[1]+1]:
+            substring += word
+        distances.append(len(substring))
+
+    gcd_list = []
+    key_length = 0
+    for index in range(0, len(distances)-1):
+        gcd_list.append(math.gcd(distances[index], distances[index+1]))  # pair-wise greatest common divisors
+        key_length = np.min(gcd_list)
+
+##    print("Key length:", key_length)
+    return key_length, index_dictionary, merged_ciphertext, recurring_words, cipher_array, gcd_list
+
+
+# Given the ciphertext and the key space, this function finds the key and decrypts the ciphertext
+def find_cipher_key(ciphertext, K):
+
+    ciphertext_updated = ''.join(e for e in ciphertext if e.isalnum())
+    differences = []
+    sum = 0
+
+    for key in K:
+        possible_decryption = shift_cipher_dec(ciphertext_updated, key)
+        for letter in list(possible_decryption):
+            if letter in letterFrequency.keys():
+                probability = (1/26) * (letterFrequency[letter] / len(ciphertext_updated))
+                sum += probability
+
+        differences.append(sum)
+        sum = 0
+
+    true_key = np.where(differences == np.max(differences))[0][0]
+    return differences, true_key
+
+
+# Given a ciphertext and the key length, this function finds the key and decrypts the ciphertext
+def vigenere_attack(ciphertext, K):
+
+    key_length, index_dictionary, merged_ciphertext, recurring_words, cipher_array, gcd_list = find_key_length_kasiski(ciphertext)
+    true_key = ""
+
+    for block_number in range(0, key_length):
+        block = ""
+        for i in range(0+block_number, len(merged_ciphertext), key_length):
+            block += merged_ciphertext[i]
+
+        differences, index = find_cipher_key(block, K)
+        true_key += inv_lowercase[index]
+
+    return true_key
+
+
+def add_punctuation_back(ciphertext):
+
+    true_key = vigenere_attack(ciphertext, K)
+    decryption = vigenere_decryption(ciphertext, true_key)
+
+    punctuation = Queue()
+    for character in ciphertext:
+        punctuation.put(character)
+
+    dec_el = Queue()
+    for character in decryption:
+        dec_el.put(character)
+
+    final_dec = ""
+    while dec_el.qsize() > 0:
+        punc = punctuation.get()
+        if punc.lower() in letterFrequency.keys():
+            dec = dec_el.get()
+            final_dec += dec
+        else:
+            final_dec += punc
+    return final_dec
 
 
 ## Cheese is a beloved food for many, and it's not hard to see why. With its wide range of flavors and textures, there's a 
@@ -498,7 +719,7 @@ def crackVigenereCipher(ciphertext):
 ## comforting element to any meal.
 
 ##print(crackShiftCipher("Hmjjxj nx f gjqtaji ktti ktw rfsd, fsi ny'x sty mfwi yt xjj bmd. Bnym nyx bnij wfslj tk kqfatwx fsi yjcyzwjx, ymjwj'x f hmjjxj tzy ymjwj ktw jajwdtsj. Kwtr ymj xmfwu yfsl tk hmjiifw yt ymj hwjfrd wnhmsjxx tk gwnj, ymjwj fwj htzsyqjxx afwnjynjx tk hmjjxj yt jsotd. Hmjjxj nx fqxt nshwjingqd ajwxfynqj, rfpnsl ny f xyfuqj nslwjinjsy ns rfsd inkkjwjsy hznxnsjx fwtzsi ymj btwqi. Ny hfs gj rjqyji ts ytu tk uneef, lwfyji tajw ufxyf, tw zxji yt fii f ijqnhntzx yfsl yt f xfsibnhm. Fiinyntsfqqd, hmjjxj nx f lwjfy xtzwhj tk uwtyjns fsi hfqhnzr, rfpnsl ny f mjfqymd fsi xfynxkdnsl xsfhp. Bmjymjw jsotdji ts nyx tbs tw nshtwutwfyji nsyt f inxm, hmjjxj nx f ktti ymfy gwnslx ujtuqj ytljymjw fsi fiix f ijqnhntzx, htrktwynsl jqjrjsy yt fsd rjfq."))
-print(crackVigenereCipher("DAZFI SFSPA VQLSN PXYSZ WXALC DAFGQ UISMT PHZGA MKTTF TCCFX KFCRG GLPFE TZMMM ZOZDE ADWVZ WMWKV GQSOH QSVHP WFKLS LEASE PWHMJ EGKPU RVSXJ XVBWV POSDE TEQTX OBZIK WCXLW NUOVJ MJCLL OEOFA ZENVM JILOW ZEKAZ EJAQD ILSWW ESGUG KTZGQ ZVRMN WTQSE OTKTK PBSTA MQVER MJEGL JQRTL GFJYG SPTZP GTACM OECBX SESCI YGUFP KVILL TWDKS ZODFW FWEAA PQTFS TQIRG MPMEL RYELH QSVWB AWMOS DELHM UZGPG YEKZU KWTAM ZJMLS EVJQT GLAWV OVVXH KWQIL IEUYS ZWXAH HUSZO GMUZQ CIMVZ UVWIF JJHPW VXFSE TZEDF".lower()))
+# print(crackVigenereCipher("DAZFI SFSPA VQLSN PXYSZ WXALC DAFGQ UISMT PHZGA MKTTF TCCFX KFCRG GLPFE TZMMM ZOZDE ADWVZ WMWKV GQSOH QSVHP WFKLS LEASE PWHMJ EGKPU RVSXJ XVBWV POSDE TEQTX OBZIK WCXLW NUOVJ MJCLL OEOFA ZENVM JILOW ZEKAZ EJAQD ILSWW ESGUG KTZGQ ZVRMN WTQSE OTKTK PBSTA MQVER MJEGL JQRTL GFJYG SPTZP GTACM OECBX SESCI YGUFP KVILL TWDKS ZODFW FWEAA PQTFS TQIRG MPMEL RYELH QSVWB AWMOS DELHM UZGPG YEKZU KWTAM ZJMLS EVJQT GLAWV OVVXH KWQIL IEUYS ZWXAH HUSZO GMUZQ CIMVZ UVWIF JJHPW VXFSE TZEDF".lower()))
 
 ##print(crackVigenereCipher("Jlppg xjpw mk gqvp"))
 
