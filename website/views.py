@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, session
 from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 import math
 # from . import Note
 from .models import User, Note
@@ -35,8 +36,10 @@ def home():
     playgroundD = ""
     playgroundE = ""
     
-    randomWords = ["Hello", "Cheese"]
-    randomWord = random.choice(randomWords)
+    shiftLearnCaeser, shiftAlphabetLearnCaeser = misc.randomAlphabet()
+    shiftLearnCaeserInWords = misc.getShiftInWords(shiftLearnCaeser)
+    randomWordLearnCaeser = misc.randomWord()
+    randomWordLearnCaeserEncrypted = encryptDecrypt.caeserCipher(randomWordLearnCaeser, shiftLearnCaeser)
 
     user_encryption = User.query.filter_by(first_name=current_user.first_name).order_by(User.current_encryption).first()
     method = ""
@@ -79,13 +82,55 @@ def home():
     decryptedVigenere = ""
     vigenereKey = ""
     
+    frequencies, bigraphs, trigraphs = "", "", ""
+    freqAnalysis = ""
+
+    randSentence = ""
+    solvedCryptogram = ""
+    cryptogramInput = ""
 
     if request.method == "POST":
+        randSentence = misc.randomSentence()
+        randomKey = random.randint(1, 27)
+        encryptRandom = encryptDecrypt.caeserCipher(randSentence, randomKey)
+        
+
+
         newVal = " ".join(request.values.to_dict().values())
         newKey = "".join(request.values.to_dict().keys())
+        print("NEW KEY IS THIS", newKey)
+
         playground = newVal
         playgroundThings = request.form
-        if newKey == "shiftBreakervigenereBreaker":
+        if newKey == "userNamefavLangaboutmepasswordconfirm_password":
+            if request.form["userName"]:
+                newuserName = request.form["userName"]
+                if " " not in newuserName:
+                    user_encryption.first_name = newuserName
+                    db.session.commit()
+            if request.form["favLang"]:
+                newfavLang = request.form["favLang"]
+                if newfavLang.lower() in ["python", "java", "c++", "c", "c#"]:
+                    user_encryption.fav_lang = newfavLang.title()
+                    db.session.commit()
+            if request.form["aboutme"]:
+                newaboutme = request.form["aboutme"]
+                user_encryption.about_me = newaboutme
+                db.session.commit()
+            if request.form["password"] and request.form["confirm_password"]:
+                new_password = request.form["password"]
+                confirmed_password = request.form["confirm_password"]
+                if len(new_password) < 7:
+                    flash('Password must be at least 7 characters.', category='error')
+                elif new_password != confirmed_password:
+                    flash('Passwords don\'t match.', category='error')
+                else:
+                    user_encryption.password = generate_password_hash(
+                    new_password, method='sha256')
+                    db.session.commit()
+            
+
+        if newKey == "shiftBreakervigenereBreakerfreqAnalysis":
             if request.form["shiftBreaker"]:
                 ciphertext = request.form["shiftBreaker"]
                 shiftDecrypted, shiftKey = encryptDecrypt.crackShiftCipher(ciphertext)
@@ -93,12 +138,20 @@ def home():
                 ciphertext = request.form["vigenereBreaker"]
                 decryptedVigenere = encryptDecrypt.add_punctuation_back(ciphertext)
                 vigenereKey = encryptDecrypt.vigenere_attack(ciphertext, range(0, 26))
+            if request.form["freqAnalysis"]:
+                ciphertext = request.form["freqAnalysis"]
+                frequencies, bigraphs, trigraphs = encryptDecrypt.frequencyAnalyis(ciphertext)
+                freqAnalysis = [" ".join((frequencies)), ", ".join(bigraphs), ", ".join(trigraphs)]
                 
-        if newKey == "cryptogram":
-            randSentence = misc.randomSentence()
-            randomKey = random.randint(1, 27)
-            encryptRandom = encryptDecrypt.caeserCipher(randSentence, randomKey)
                 
+        if newKey == "cryptogramInput":
+            print(request.form["cryptogramInput"])
+            cryptogramInput = request.form["cryptogramInput"]
+            solvedCryptogram = False
+            print("RANDOM SENTENCE", randSentence)
+            if request.form["cryptogramInput"].lower().replace(" ", "") == randSentence.lower().replace(" ", ""):
+                solvedCryptogram = True
+            
 
 
 
@@ -146,8 +199,7 @@ def home():
 
                         playgroundE = encryptDecrypt.vigCipher(request.form["playEncrypt"], request.form["encryptKey"])
                         plaintext = request.form["playEncrypt"]
-                        vigWord = [i for i in range(0, len(playgroundE))]
-                        vigJ = vigWord[1]
+                 
 
                     elif playground.split()[0] == "Trithemius":
                         plaintext = request.form["playEncrypt"]
@@ -306,6 +358,7 @@ def home():
                                         usersNum = len([User.query.get(i).first_name for i in range(1, len(User.query.all())+1)]),
                                         enumerate=enumerate,
                                         messages = messages ,
+                                        # signed_in = True,
                                         proglang = User.query.filter_by(first_name=current_user.first_name).order_by(User.current_encryption).first().fav_lang,
                                         aboutme = User.query.filter_by(first_name=current_user.first_name).order_by(User.current_encryption).first().about_me,
                                         method = method,
@@ -330,8 +383,7 @@ def home():
                                         playgroundILen = len(playgroundIndices),
                                         alphabetVisual = alphabetVisual,
                                         regularAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                                        randomWords = randomWords,
-                                        randomWord = randomWord,
+                    
                                         shiftDecrypted = shiftDecrypted,
                                         playedAnimation =playedAnimation,
                                         shiftKey = shiftKey,
@@ -341,5 +393,22 @@ def home():
                                         randomSentence = encryptRandom,
                            
                                         decryptedVigenere = decryptedVigenere,
-                                        vigenereKey = vigenereKey
+                                        vigenereKey = vigenereKey,
+                                        frequencies = frequencies,
+                                        bigraphs = bigraphs,
+                                        trigraphs = trigraphs,
+                                        freqAnalysis = freqAnalysis,
+
+                                        solvedCryptogram = solvedCryptogram,
+                                        originalSentence = randSentence,
+                                        cryptogramInput = cryptogramInput,
+
+                                        shiftLearnCaeser = shiftLearnCaeser,
+                                        shiftLearnCaeserInWords = shiftLearnCaeserInWords,
+                                        shiftAlphabetLearnCaeser = shiftAlphabetLearnCaeser,
+                                        randomWordLearnCaeser = randomWordLearnCaeser,
+                                        randomWordLearnCaeserEncrypted = randomWordLearnCaeserEncrypted,
+
+                                        isString = lambda x: x.isalpha(),
+                                        filter = filter
                                         )

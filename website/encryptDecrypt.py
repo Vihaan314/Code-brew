@@ -132,19 +132,17 @@ IMPLEMENTATIONS
 
 #CAESER CIPHER ENCRYPTION
 def caeserCipher(message, key): #DONE
-    messCaps = message
-    message = message.lower()
-    key %= 26
-    newChars = []
-    for i in range(0, len(message)):
-        if message[i] != " ":
-            if chr((ord(message[i])+key)).isalpha() == False:
-                newChars.append(chr(ord(message[i])+key-26))
+    new_chars = []
+    for char in message:
+        if char.isalpha():
+            if char.isupper():
+                new_char = chr((ord(char) - 65 + key) % 26 + 65)
             else:
-                newChars.append(chr(ord(message[i])+key))
+                new_char = chr((ord(char) - 97 + key) % 26 + 97)
         else:
-            newChars.append(message[i])
-    return "".join([newChars[i].upper() if messCaps[i].isupper() else newChars[i] for i in range(0, len(messCaps))])
+            new_char = char
+        new_chars.append(new_char)
+    return "".join(new_chars)
 
 #CAESER CIPHER DECRYPTION
 def decryptCaeser(message, key): #DONE
@@ -300,14 +298,15 @@ def affineCipher(message, a, b):
     messSpaces = message
     messCaps = message
     message = message.replace(" ", "").lower()
+    
     alphabet = "abcdefghijklmnopqrstuvwxyz"
     
     messageAlpha = [alphabet.index(i) if i in alphabet else i for i in message]
     encrypted = [((a*messageAlpha[i])+b)%26 if str(messageAlpha[i]).isdigit() else messageAlpha[i] for i in range(0, len(messageAlpha))]
     encrypted = "".join([alphabet[i] if str(i).isdigit() else i for i in encrypted])
-    for i in range(0, len(encrypted)):
+    for i in range(0, len(messSpaces)):
         if messSpaces[i] == " ":
-            encrypted = encrypted[0:i] + " " + encrypted[i:]
+            encrypted = encrypted[0:i] + " " + encrypted[i:len(encrypted)]
     return "".join([encrypted[i].upper() if messCaps[i].isupper() else encrypted[i] for i in range(0, len(messCaps))])
 
 #AFFINE CIPHER DECRYPTION
@@ -468,7 +467,7 @@ CODEBREAKERS
 """
 
 def frequencies(ciphertext):
-    cipherUpdated = "".join(e for e in ciphertext if e.isalnum())
+    cipherUpdated = "".join(e for e in ciphertext if e.isalnum()).lower()
     freqDict = Counter(cipherUpdated)
     return freqDict, cipherUpdated
 
@@ -541,7 +540,6 @@ def crackShiftCipher(ciphertext):
 K = range(0, 26)  # the key space
 
 
-#  Vigenere encryption
 def vigenere_encryption(plaintext, key):
 
     ciphertext = ""
@@ -559,7 +557,6 @@ def vigenere_encryption(plaintext, key):
     return ciphertext
 
 
-#  Vigenere decryption
 def vigenere_decryption(ciphertext, key):
 
     plaintext = ""
@@ -577,7 +574,6 @@ def vigenere_decryption(ciphertext, key):
     return plaintext
 
 
-#  Shift decryption from the first question
 def shift_cipher_dec(ciphertext, key):
     plaintext = ''
     ciphertext_updated = ''.join(e for e in ciphertext if e.isalnum())
@@ -592,7 +588,6 @@ def shift_cipher_dec(ciphertext, key):
     return plaintext
 
 
-# This function finds the recurring words in a ciphertext
 def find_recurring_words(ciphertext):
     no_punctuation_ciphertext = re.sub(r'[^\w\s]', '', ciphertext)
     cipher_array = list(no_punctuation_ciphertext.split())
@@ -614,7 +609,6 @@ def find_recurring_words(ciphertext):
     return merged_ciphertext, recurring_words, cipher_array
 
 
-# This function finds the recurring words' indexes in a given ciphertext
 def find_recurring_word_placements(ciphertext):
 
     index_dictionary = {}
@@ -648,7 +642,6 @@ def find_key_length_kasiski(ciphertext):
     return key_length, index_dictionary, merged_ciphertext, recurring_words, cipher_array, gcd_list
 
 
-# Given the ciphertext and the key space, this function finds the key and decrypts the ciphertext
 def find_cipher_key(ciphertext, K):
 
     ciphertext_updated = ''.join(e for e in ciphertext if e.isalnum())
@@ -669,7 +662,6 @@ def find_cipher_key(ciphertext, K):
     return differences, true_key
 
 
-# Given a ciphertext and the key length, this function finds the key and decrypts the ciphertext
 def vigenere_attack(ciphertext, K):
 
     key_length, index_dictionary, merged_ciphertext, recurring_words, cipher_array, gcd_list = find_key_length_kasiski(ciphertext)
@@ -708,6 +700,27 @@ def add_punctuation_back(ciphertext):
         else:
             final_dec += punc
     return final_dec
+
+
+
+
+def frequencyAnalyis(ciphertext):
+    ciphertext_common, _ = frequencies(ciphertext)
+##    print(ciphertext_common)
+    twoLetter = list(filter(lambda x: len(x) == 2, ciphertext.split()))
+##    print(twoLetter)
+    threeLetter = list(filter(lambda x: len(x) == 3, ciphertext.split()))
+##    print(threeLetter)
+    return [ciphertext_common, twoLetter, threeLetter]
+
+print(frequencyAnalyis("Eittlt ol q wtsgctr yggr ygk dqfn, qfr oz'l fgz iqkr zg ltt vin. Vozi ozl vort kqfut gy ysqcgkl qfr ztbzxktl, zitkt'l q eittlt gxz zitkt ygk tctkngft. Ykgd zit liqkh zqfu gy eitrrqk zg zit ektqdn koeiftll gy wkot, zitkt qkt egxfzstll cqkotzotl gy eittlt zg tfpgn. Eittlt ol qslg ofektrowsn ctklqzost, dqaofu oz q lzqhst ofuktrotfz of dqfn royytktfz exoloftl qkgxfr zit vgksr. Oz eqf wt dtsztr gf zgh gy hommq, ukqztr gctk hqlzq, gk xltr zg qrr q rtsoeogxl zqfu zg q lqfrvoei. Qrrozogfqssn, eittlt ol q uktqz lgxket gy hkgztof qfr eqseoxd, dqaofu oz q itqszin qfr lqzolynofu lfqea. Vitzitk tfpgntr gf ozl gvf gk ofegkhgkqztr ofzg q roli, eittlt ol q yggr ziqz wkoful htghst zgutzitk qfr qrrl q rtsoeogxl, egdygkzofu tstdtfz zg qfn dtqs."))
+
+
+
+
+
+
+
 
 
 ## Cheese is a beloved food for many, and it's not hard to see why. With its wide range of flavors and textures, there's a 

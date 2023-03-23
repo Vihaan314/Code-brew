@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
+from .models import User, Ciphers
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -75,11 +75,11 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            new_user = User(email=email, first_name=user_name, password=generate_password_hash(
-                password1, method='sha256'), current_encryption=current_encryption, current_key=current_key, fav_lang=fav_lang, about_me = aboutme, messages_sent=0)
+           
+            new_user = User(email=email, first_name=user_name, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
-            return redirect(url_for('views.home', signed_in = True))
+            return redirect(url_for('views.home'))
     return render_template("sign_up.html", user=current_user)
