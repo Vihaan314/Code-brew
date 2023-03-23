@@ -16,7 +16,9 @@ body {
 }
 .chat {
     height: calc(100vh - 45px);
-    overflow-y: auto;
+    /* overflow-y: auto; */
+    -ms-overflow-style: none!important;  
+    scrollbar-width: none!important;
     
 }
 body {
@@ -156,6 +158,7 @@ a:hover {
 
 #myMessage {
   width: calc(100vw - 400px);
+  resize: none;
 }
 
 ._hiiNzR2vr3SrSW1a9Nq{z-index:30}._MTwKeST1JpgVPLVq9Qc{margin-bottom:1rem;margin-top:1rem}.Cl7RaVW6jbggnJW_S87T{margin-right:.75rem}.e7U_bm2YzmHTdXgdisqA{margin-bottom:.125rem}.w1dcvQ7zZEzXFNLelnzv{margin-bottom:0}.rD4HtsUG_hahmbh2Kj09{margin-bottom:.5rem}.ttxtqsLWp2pFRX8yUvWd{display:block}.kqgYncRJQ7spwKfig6It{display:flex}.ay0ziTPUL4Ag5d1DkSY7{display:inline-flex}._pwSRUXRHN5bHphyTRKz{height:2rem}.RRXFBumaW2SHdseZaWm6{height:1.25rem}._XD2a764x49B1E2F9f8X{height:1.5rem}.ZX7qzV1oJ_KQBquXp5_Q{resize:both}.__9yfFbPJuEYWBMy4kA9{align-items:flex-start}.lVQPxqiFn6y3l0wFmENY{align-items:flex-end}.neyUwteEn7DOg9pBSJJE{align-items:center}.Odj8n83y7sKz4V0UfIxN{overflow:hidden}.M4JgixW4UN7OS2HTxbTr{overflow-y:auto}._Qk4_E9_iLqcHsRZZ4ge{border-radius:.5rem}.n8e6ORKgPTnY6zgs5HS7{border-radius:9999px}.YPSoR6AXtPgkmylUmcbT{border-radius:.25rem}.PWreZZgitgAm_Nv4Noh9{border-width:1px}.sknkfZkBBWEvc1gMJ4v5{border-right-width:1px}.F6maSyXBC_uv_A_dciar{--tw-bg-opacity:0.5}.Y34SQMYAJVIAdOFKA3gG{padding:.5rem}._4wtDMQ2AdJOlYvml5sL{padding:.625rem}.x1NtnN5a2v_Vi6iT26nf{padding-bottom:1rem;padding-top:1rem}.MQMN74ivNmI6x68DZajA{padding-left:.75rem;padding-right:.75rem}._Masco_7wTrd3Tc0qjp9{padding-bottom:.75rem;padding-top:.75rem}.veFXkDzfJN473U3ycrV8{padding-left:1rem;padding-right:1rem}._mzhSDAYlA3W05MgSqAf{padding-left:.75rem}.PSQP9kvsunDmw48W3Bk4{padding-left:2.5rem}.hkIVjIphcdkhq1U2r3yL{padding-top:.75rem}.y2fDSZI02bHRePzb2ykU{padding-left:.5rem}.PJD8Rj8ZmfldJGExe8Fx{text-align:left}.MxG1ClE4KPrIvlL5_Q5x{font-size:.875rem;line-height:1.25rem}.osxEM2eQc4Pc_arzCZsv{font-size:1rem;line-height:1.5rem}.LYMps1kO2vF8HBymW3az{font-weight:600}.oTkHpmOXEgQRdykOe3sq{font-weight:400}._A6LflweZRUwrcL6M2Tk{font-weight:500}.EwTRjGOFYqbTj4bWVQmN{text-transform:uppercase}.MxQqv3Z913orO6JQGGbH{line-height:1}.g3OYBOqwXUEW4dRGogkH{--tw-text-opacity:1;color:rgb(17 24 39/var(--tw-text-opacity))}.K1PPCJwslha8GUIvV_Cr{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity))}._Il9cmobGAOeKlZtFmMF{--tw-text-opacity:1;color:rgb(28 100 242/var(--tw-text-opacity))}.rZZ58B08lxezTX7iNgGT{--tw-text-opacity:1;color:rgb(156 163 175/var(--tw-text-opacity))}.AtHBVur__RVIv6BHiI4a{opacity:0}.sP7SKS6_gloe57qoEglY{opacity:1}.lhxYQ_2y3sYNN3W1V_3q{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000)}
@@ -667,10 +670,69 @@ a:hover {
         }
       }
 
+
+
+
+      .find-caeser-word{-webkit-animation:find-caeser-word .7s cubic-bezier(.55,.055,.675,.19) var(--delayFindCaeserWord) both;animation:find-caeser-word .7s cubic-bezier(.55,.055,.675,.19) var(--delayFindCaeserWord) both}
+      @-webkit-keyframes find-caeser-word {
+        0% {
+                -webkit-border: 2px solid green;
+                border: 2px solid green;
+                visibility:hidden!important;
+        }
+        100% {
+          background: red;
+        visibility:visible!important;
+        -webkit-border: 2px solid green;
+                border: 2px solid green;
+        }
+      }
+      @keyframes find-caeser-word {
+        0% {
+          -webkit-border: 2px solid green;
+            border: 2px solid green;
+                visibility:hidden!important;
+        }
+        100% {
+          background: red;
+        visibility:visible!important;
+        -webkit-border: 2px solid green;
+                border: 2px solid green;
+        }
+      }
+
       
-.pauseAnimation {
-  animation-play-state: paused;
-}
+      .find-caeser-word-shifted{-webkit-animation:find-caeser-word-shifted .7s cubic-bezier(.55,.055,.675,.19) var(--delayFindCaeserWordShifted) both;animation:find-caeser-word-shifted .7s cubic-bezier(.55,.055,.675,.19) var(--delayFindCaeserWordShifted) both}
+      @-webkit-keyframes find-caeser-word-shifted {
+        0% {
+                -webkit-border: 2px solid green;
+                border: 2px solid green;
+                visibility: hidden!important;
+        }
+        100% {
+          background: green;
+          visibility:visible!important;
+          -webkit-border: 2px solid green;
+                border: 2px solid green;
+        }
+      }
+      @keyframes find-caeser-word-shifted {
+        0% {
+          -webkit-border: 2px solid green;
+            border: 2px solid green;
+            visibility: hidden!important;
+        }
+        100% {
+          background: green;
+          visibility: visible!important;
+          -webkit-border: 2px solid green;
+                border: 2px solid green;
+        }
+      }
+      
+      .adjustedLearnExampleCaeser {
+        height: 200vh!important;
+      }
 
 
 .puzzles-wrapper {
@@ -781,3 +843,4 @@ a:hover {
       .number-puzzles-section.active {
       display: block;
       }      
+
