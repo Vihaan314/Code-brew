@@ -89,6 +89,14 @@ def home():
     solvedCryptogram = ""
     cryptogramInput = ""
 
+    practiceCaeserSolved = ""
+    practiceCaeserInput = ""
+
+    q1Res = q2Res = q3Res = q4Res = q5Res = ""
+    totalMarkCaeser = percentageCaeser = ""
+
+    q3 = q4 = q5 = ""
+
     if request.method == "POST":
         randSentence = misc.randomSentence()
         randomKey = random.randint(1, 27)
@@ -152,7 +160,45 @@ def home():
             if request.form["cryptogramInput"].lower().replace(" ", "") == randSentence.lower().replace(" ", ""):
                 solvedCryptogram = True
             
+        if newKey == "practiceCaeserInput":
+            practiceCaeserInput = request.form["practiceCaeserInput"]
+            practiceCaeserSolved = False
+            if practiceCaeserInput.lower().replace(" ", "") == encryptDecrypt.caeserCipher("hello", 12):
+                practiceCaeserSolved = True
 
+        if newKey == "q1CaesercaeserOp1caeserOp2caeserOp3caeserOp4q3Caeserq4Caeserq5Caeser":
+            q1 = request.form["q1Caeser"]
+            q1Res = False
+
+            q2Op1 = request.form["caeserOp1"]
+            q2Op2 = request.form["caeserOp2"]
+            q2Op3 = request.form["caeserOp3"]
+            q2Op4 = request.form["caeserOp4"]
+            q2Res = False
+            print(q2Op1, q2Op2, q2Op3, q2Op4)
+           
+            q3 = request.form["q3Caeser"]
+            q3Res = False
+
+            q4 = request.form["q4Caeser"]
+            q4Res = False
+
+            q5 = request.form["q5Caeser"]
+            q5Res = False
+
+            if q1.replace(" ", "") == "26":
+                q1Res = True
+            if q2Op3 == "substitution":
+                q2Res = True
+            if q3.replace(" ", "").lower() == "kvzrklod":
+                q3Res = True
+            if q4.replace(" ", "").lower() == "hello":
+                q4Res = True
+            if q5.replace(" ", "").lower() == "cheese":
+                q5Res = True    
+
+            totalMarkCaeser = len(list(filter(lambda x: x == True, [q1Res, q2Res, q3Res, q4Res, q5Res])))
+            percentageCaeser = (totalMarkCaeser / 5) * 100
 
 
         if newKey == "playgroundMethodplayEncryptencryptKeyplayDecryptdecryptKey":
@@ -358,7 +404,6 @@ def home():
                                         usersNum = len([User.query.get(i).first_name for i in range(1, len(User.query.all())+1)]),
                                         enumerate=enumerate,
                                         messages = messages ,
-                                        # signed_in = True,
                                         proglang = User.query.filter_by(first_name=current_user.first_name).order_by(User.current_encryption).first().fav_lang,
                                         aboutme = User.query.filter_by(first_name=current_user.first_name).order_by(User.current_encryption).first().about_me,
                                         method = method,
@@ -410,5 +455,20 @@ def home():
                                         randomWordLearnCaeserEncrypted = randomWordLearnCaeserEncrypted,
 
                                         isString = lambda x: x.isalpha(),
-                                        filter = filter
+                                        filter = filter,
+
+                                        practiceCaeserSolved = practiceCaeserSolved,
+                                        practiceCaeserInput = practiceCaeserInput,
+
+                                        caeserQ3Input = q3,
+                                        caeserQ4Input = q4,
+                                        caeserQ5Input = q5,
+                                        
+                                        q1Res = q1Res,
+                                        q2Res = q2Res,
+                                        q3Res = q3Res,
+                                        q4Res = q4Res,
+                                        q5Res = q5Res,
+                                        totalMarkCaeser = totalMarkCaeser,
+                                        percentageCaeser = percentageCaeser,
                                         )

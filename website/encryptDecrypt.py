@@ -131,36 +131,22 @@ IMPLEMENTATIONS
 #PLAYFAIR CIPHER
 
 #CAESER CIPHER ENCRYPTION
-def caeserCipher(message, key): #DONE
-    new_chars = []
+def caeserCipher(message, key, decrypt = 1): #DONE
+    newChars = []
     for char in message:
         if char.isalpha():
             if char.isupper():
-                new_char = chr((ord(char) - 65 + key) % 26 + 65)
+                newChar = chr((ord(char) - 65 + decrypt*key) % 26 + 65)
             else:
-                new_char = chr((ord(char) - 97 + key) % 26 + 97)
+                newChar = chr((ord(char) - 97 + decrypt*key) % 26 + 97)
         else:
-            new_char = char
-        new_chars.append(new_char)
-    return "".join(new_chars)
+            newChar = char
+        newChars.append(newChar)
+    return "".join(newChars)
 
 #CAESER CIPHER DECRYPTION
-def decryptCaeser(message, key): #DONE
-    messCaps = message
-    message = message.lower()
-    newChars = []
-    key %= 26
-    for i in range(0, len(message)):
-        if message[i] != " ":
-            if message[i] in string.punctuation:
-                newChars.append(message[i])
-            elif chr(ord(message[i])-key).isalpha() == False or chr(ord(message[i])-key).isupper() != message[i].isupper():
-                newChars.append(chr(ord(message[i])-key+26))
-            else:
-                newChars.append(chr(ord(message[i])-key))
-        else:
-            newChars.append(message[i])
-    return "".join([newChars[i].upper() if messCaps[i].isupper() else newChars[i] for i in range(0, len(messCaps))])                                                                                       
+def decryptCaeser(message, key): #DONE=
+    return caeserCipher(message, key, decrypt= -1)
 
 #ROT13 ENCRYPTION
 def rot13Cipher(message): #DONE
@@ -295,19 +281,9 @@ def decryptTransposition(cipher, key):
 
 #AFFINE CIPHER ENCRYPTION
 def affineCipher(message, a, b):
-    messSpaces = message
-    messCaps = message
-    message = message.replace(" ", "").lower()
-    
     alphabet = "abcdefghijklmnopqrstuvwxyz"
-    
-    messageAlpha = [alphabet.index(i) if i in alphabet else i for i in message]
-    encrypted = [((a*messageAlpha[i])+b)%26 if str(messageAlpha[i]).isdigit() else messageAlpha[i] for i in range(0, len(messageAlpha))]
-    encrypted = "".join([alphabet[i] if str(i).isdigit() else i for i in encrypted])
-    for i in range(0, len(messSpaces)):
-        if messSpaces[i] == " ":
-            encrypted = encrypted[0:i] + " " + encrypted[i:len(encrypted)]
-    return "".join([encrypted[i].upper() if messCaps[i].isupper() else encrypted[i] for i in range(0, len(messCaps))])
+    encrypted = [(alphabet[(a * alphabet.index(i.lower()) + b) % 26]).upper() if i.isupper() else alphabet[(a * alphabet.index(i.lower()) + b) % 26] if i.isalpha() else i for i in message]
+    return "".join(encrypted)
 
 #AFFINE CIPHER DECRYPTION
 def decryptAffine(message, a, b):
@@ -321,12 +297,13 @@ def decryptAffine(message, a, b):
     else:
         aInv = x % len(alphabet)        
     messageAlpha = [alphabet.index(i) if i in alphabet else i for i in message]
-    decrypted = [(aInv*(i - b))%26 if str(i).isdigit() else i for i in messageAlpha]
-    decrypted = "".join([alphabet[i] if str(i).isdigit() else i for i in decrypted])
+    decrypted = [(aInv*(i - b))%26 if isinstance(i, int) else i for i in messageAlpha]
+    decrypted = "".join([alphabet[i] if isinstance(i, int) else i for i in decrypted])
     for i in range(0, len(messSpaces)):
         if messSpaces[i] == " ":
             decrypted = decrypted[0:i] + " " + decrypted[i:]
     return "".join([decrypted[i].upper() if messCaps[i].isupper() else decrypted[i].lower() for i in range(0, len(messCaps))])
+  
 
 #HILL CIPHER ENCRYPTION (K * P)
 def hillCipher(message, key): #DONE
