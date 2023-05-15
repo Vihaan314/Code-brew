@@ -42,3 +42,23 @@ The cipher creator page.
 <br>
 The settings page.
 
+
+The ciphers that I implemented include the:
+Caeser cipher, Rot13 cipher (variation of the Caeser cipher)
+Vigenere cipher
+Trithemius cipher
+Atbash cipher
+Monoalphabetic cipher
+Transposition cipher
+Affine cipher
+Hill cipher
+Playfair cipher
+The Hill cipher and Playfair cipher were the most challenging as they required a lot of work with matrices and linear algebra - modular inverse of matrix, etc.
+I also enjoying learning about cryptanalysis techniques to create code breakers that include: 
+A frequency analysis tool which provides all useful information about an encrypted passage that would be useful to decrypt it, by providing things like the letter distribution compared to the standard letter distributions, digraph information, and more. 
+A shift cipher cracker, that uses a mathematical formula to return the most likely decrypted text
+A Vigenere cipher cracker that uses the Kasiski test to determine the key length and then the Friedman's test, which use a variety of mathematical formulas and frequency analysis-like techniques to deduce the alphabetical key from the result of the Kasiski test and other analysis.
+However, this also includes a user and messaging system, where the user can choose from a variety of appearance options, ciphers to use for messaging (even though users don't see the difference), and more. The information that the user provides in the sign-up page are displayed in the user cards. This is also being stored safely in an SQLite database.
+There is also a learn section, where you can go through a mini-course to learn about each of the ciphers.
+I plan to add a cipher puzzles section, a friends system, and a cipher creator, which would allow users to combine difference operations and preexisting ciphers together in a game-like way to create a 'supercipher' that can be saved and used for their messaging system. I also plan on deploying this website and growing this with a wider audience.
+
