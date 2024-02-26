@@ -55,6 +55,8 @@ Hill cipher
 Playfair cipher
 
 The Hill cipher and Playfair cipher were the most challenging as they required a lot of work with matrices and linear algebra - modular inverse of matrix, etc.
-A shift cipher cracker, that uses a mathematical formula to return the most likely decrypted text
-I plan to add a cipher puzzles section, a friends system, and a cipher creator, which would allow users to combine difference operations and preexisting ciphers together in a game-like way to create a 'supercipher' that can be saved and used for their messaging system. I also plan on deploying this website and growing this with a wider audience.
+<br>
+I plan to add a cipher puzzles section, a friends system, and a cipher creator, which would allow users to combine difference operations and preexisting ciphers together in a game-like way to create a 'supercipher' that can be saved and used for their messaging system. 
+<br>
+I also plan on deploying this website and growing this with a wider audience.
 
