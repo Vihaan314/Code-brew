@@ -60,3 +60,17 @@ I plan to add a cipher puzzles section, a friends system, and a cipher creator, 
 <br>
 I also plan on deploying this website and growing this with a wider audience.
 
+<details open>
+  <summary><b>Demo Images</b></summary>
+<br>
+Login:
+<img width="1278" alt="image" src="https://github.com/Vihaan314/Code-brew/assets/91592863/212267c6-dbde-4ec6-9cdc-1c85fc21639a">
+Signup:
+<img width="1275" alt="image" src="https://github.com/Vihaan314/Code-brew/assets/91592863/12b9a500-2ef5-4997-97cc-b0120d9d83e6">
+Home screen (chat):
+<img width="1154" alt="image" src="https://github.com/Vihaan314/Code-brew/assets/91592863/8ebfe03a-3bfe-4f28-ab19-5175d922b21a">
+Learn:
+<img width="1233" alt="image" src="https://github.com/Vihaan314/Code-brew/assets/91592863/5b3eab70-5a0c-44da-843e-5ecfdad83618">
+Cipher playground:
+<img width="1255" alt="image" src="https://github.com/Vihaan314/Code-brew/assets/91592863/ee44d796-1f3e-4215-b7a7-d310cf107e72">
+<img width="1256" alt="image" src="https://github.com/Vihaan314/Code-brew/assets/91592863/261b4cb9-e18e-4b3e-a637-121d1aca8563">
