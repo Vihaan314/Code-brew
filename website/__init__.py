@@ -4,6 +4,7 @@ from os import path
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, send
 from . import encryptDecrypt
+import os
 
 # from flask_login import UserMixin
 # from sqlalchemy.sql import func
@@ -87,7 +88,7 @@ def deleteMessage(user):
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'cheese'
+    app.config['SECRET_KEY'] = os.urandom(12)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
